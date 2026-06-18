@@ -6,7 +6,8 @@
         "title": "GitHub",
         "url": "https://github.com/dashboard",
         "desc": "代码托管、开源协作",
-        "data-desc": "全球最大代码托管与开源协作平台，GitHub、git"
+        "data-desc": "全球最大代码托管与开源协作平台，GitHub、git",
+        "icon": "icons/logos/github.svg"
       },
       {
         "title": "哔哩哔哩",
@@ -91,7 +92,7 @@
         "url": "https://chat.deepseek.com/",
         "desc": "国产顶级AI大模型",
         "data-desc": "国产顶级 AI 大模型，深度思考、代码辅助，深度求索，DeepSeek R1",
-        "icon": "icons/logos/deepseek-copy-copy-copy.svg"
+        "icon": "icons/logos/deepseek-copy-copy-copy-copy-copy.svg"
       },
       {
         "title": "Kimi",
@@ -110,7 +111,7 @@
         "url": "https://tongyi.aliyun.com/",
         "desc": "阿里AI大模型",
         "data-desc": "阿里巴巴旗下通义千问 AI 大模型，Qwen，支持长文档与多模态",
-        "icon": "icons/logos/Tongyi-Qianwen.svg"
+        "icon": "icons/logos/通义千问.svg"
       },
       {
         "title": "豆包",
