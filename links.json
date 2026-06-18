@@ -91,7 +91,8 @@
         "title": "DeepSeek",
         "url": "https://chat.deepseek.com/",
         "desc": "国产顶级AI大模型",
-        "data-desc": "国产顶级 AI 大模型，深度思考、代码辅助，深度求索，DeepSeek R1"
+        "data-desc": "国产顶级 AI 大模型，深度思考、代码辅助，深度求索，DeepSeek R1",
+        "icon": "icons/logos/deepseek-copy-copy-copy.svg"
       },
       {
         "title": "Kimi",
@@ -109,7 +110,8 @@
         "title": "通义千问",
         "url": "https://tongyi.aliyun.com/",
         "desc": "阿里AI大模型",
-        "data-desc": "阿里巴巴旗下通义千问 AI 大模型，Qwen，支持长文档与多模态"
+        "data-desc": "阿里巴巴旗下通义千问 AI 大模型，Qwen，支持长文档与多模态",
+        "icon": "icons/logos/Tongyi-Qianwen.svg"
       },
       {
         "title": "豆包",
