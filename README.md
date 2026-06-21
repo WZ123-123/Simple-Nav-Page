@@ -135,13 +135,13 @@ Worker 会代理以下资源：
 
 ### 5️⃣（可选）开启后台功能
 
-登录后台可避免每次增减网站改代码的繁琐，并方便自定义图标（注意：若代码保存于GitHub，在后台编辑实际上就是读写github文件，所以若使用不流畅，则在后台操作时应科学上网）
+登录后台可避免每次增减网站改代码的繁琐，并方便自定义图标（注意：在后台编辑网站实际上就是读写github文件，所以若使用不流畅，则在后台操作时应科学上网）
 
 #### 📦 步骤
 
 1. 打开 https://github.com/settings/personal-access-tokens
 2. Generate new token
-3. Token name *、Description随意、Expiration（token有效期）
+3. Token name *、Description随意、Expiration（token有效期，到期后需要重新申请token，也可选无限期：No expiration）
 4. 然后点Only select repositories，然后选择自己的仓库
 5. 选+Add permissions，再选Contents，将Contents后改为，Access：Read and Write
 6. Generate token
@@ -153,6 +153,12 @@ Worker 会代理以下资源：
 10. 第一次需要输入token和自定义短密码，后续可通过短密码登录（换设备和浏览器后需要重新输入token）
 11. 修改后台内容后点击保存到github
 <img width="1194" height="604" alt="导航编辑器 (18 06 2026 21_37)" src="https://github.com/user-attachments/assets/e6ab1926-ba82-4d67-8de3-b94d10c12d5c" />
+
+---
+
+#### ⚙️ 原理说明
+
+token就是一个有权限读写你所授权的仓库的钥匙，从而实现在非github页面可视化修改网站。
 
 ---
 
