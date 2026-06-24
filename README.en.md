@@ -34,6 +34,23 @@ A **low-barrier personal navigation page template** that requires no server setu
 
 ---
 
+## 📸 Demo
+
+Homepage:
+
+https://xmynscnq.github.io/Simple-Nav-Page
+
+![Uploading 王五导航 (24.06.2026 17_30).png…]()
+
+
+Admin Panel:
+
+https://xmynscnq.github.io/Simple-Nav-Page/admin
+
+<img width="1920" height="919" alt="image" src="https://github.com/user-attachments/assets/ae2963bd-5110-4c7f-b74a-e85c23492fc7" />
+
+---
+
 ## 🧑‍💻 Suitable For
 
 * Anyone who wants a personal navigation page
@@ -248,24 +265,8 @@ The token acts as a key with read/write permissions for your repository, allowin
 
 ---
 
-## 📸 Demo
+<img width="375" height="667" alt="王五导航 (24 06 2026 17_28)" src="https://github.com/user-attachments/assets/3c07f475-31b9-4676-b872-88e13a393eae" />
 
-Homepage:
-
-https://xmynscnq.github.io/Simple-Nav-Page
-
-<img width="1920" height="919" alt="image" src="https://github.com/user-attachments/assets/6a46f2a4-c668-4f3b-b766-db33692c607a" />
-
-
-Admin Panel:
-
-https://xmynscnq.github.io/Simple-Nav-Page/admin
-
-<img width="1920" height="919" alt="image" src="https://github.com/user-attachments/assets/ae2963bd-5110-4c7f-b74a-e85c23492fc7" />
-
-
-
----
 
 ## 📄 License
 
