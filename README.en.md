@@ -78,6 +78,7 @@ Edit `index.html`:
 
 ```html
 <title>Your Navigation Page Name</title>
+<h1>Your Navigation Page Name</h1>
 ```
 
 ---
