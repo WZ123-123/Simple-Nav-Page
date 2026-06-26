@@ -126,7 +126,7 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
   border:1px solid var(--border2);border-radius:var(--radius);
   box-shadow:0 20px 60px rgba(0,0,0,0.7);
   width:380px;
-  /* FIX: 限制最大高度，内部滚动 */
+  max-height:80vh;
   display:flex;flex-direction:column;
   overflow:hidden;
 }
@@ -135,7 +135,7 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .ipanel-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 .ipanel-tab:hover:not(.active){color:var(--text2)}
 /* FIX: body 可滚动，撑满剩余空间 */
-.ipanel-body{padding:12px;overflow-y:auto;flex:1;min-height:0}
+.ipanel-body{padding:12px;display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
 .ipanel-body::-webkit-scrollbar{width:4px}
 .ipanel-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 
@@ -1075,16 +1075,13 @@ function renderPickTab(filter=''){
   }
 
   // 首次渲染：搜索框 + 网格容器
-  body.style.display='flex';
-  body.style.flexDirection='column';
-  body.style.overflow='hidden'; // body 自身不滚动，网格内部滚动
+  // body已是flex列（CSS定义），直接写内容
   body.innerHTML=`
-    <div class="icon-search-wrap" style="flex-shrink:0;padding-bottom:2px">
+    <div class="icon-search-wrap" style="flex-shrink:0;margin-bottom:8px">
       <input type="search" placeholder="搜索图标名称…" value="${esc(filter)}"
         oninput="renderPickTab(this.value)" style="padding-left:28px">
     </div>
-    <div id="icon-grid-container"
-      style="flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;padding-right:2px">
+    <div id="icon-grid-container" class="icon-grid-scroll" style="flex:1;min-height:0">
     </div>`;
 
   const filtered=filter
