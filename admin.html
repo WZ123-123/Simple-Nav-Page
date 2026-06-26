@@ -126,15 +126,16 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
   border:1px solid var(--border2);border-radius:var(--radius);
   box-shadow:0 20px 60px rgba(0,0,0,0.7);
   width:380px;
-  overflow:hidden;
+  overflow:visible;
 }
 .ipanel-tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.2)}
 .ipanel-tab{flex:1;padding:9px 0;text-align:center;font-size:12px;font-weight:500;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .15s}
 .ipanel-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 .ipanel-tab:hover:not(.active){color:var(--text2)}
 .ipanel-body{padding:12px;overflow-y:auto;max-height:360px}
-.ipanel-body::-webkit-scrollbar{width:4px}
+.ipanel-body::-webkit-scrollbar{width:6px}
 .ipanel-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+.ipanel-body::-webkit-scrollbar-track{background:transparent}
 .auto-preview{display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 0}
 .auto-preview .big-icon{width:56px;height:56px;border-radius:12px;border:1px solid var(--border);background:var(--glass);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .auto-preview .big-icon img{width:100%;height:100%;object-fit:contain}
@@ -148,17 +149,18 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .icon-search-wrap input{padding-left:28px;font-size:12px}
 .icon-search-wrap::before{content:'🔍';position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:11px;pointer-events:none}
 /* 图标网格：固定高度+滚动，彻底解决显示不全 */
-.icon-grid-scroll{overflow-y:auto;overflow-x:hidden;max-height:280px}
-.icon-grid-scroll::-webkit-scrollbar{width:4px}
-.icon-grid-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+.icon-grid-scroll{overflow-y:scroll;overflow-x:hidden;max-height:260px;padding-right:2px}
+.icon-grid-scroll::-webkit-scrollbar{width:6px}
+.icon-grid-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.25);border-radius:4px}
+.icon-grid-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,0.04);border-radius:4px}
 .pick-tab-inner{display:flex;flex-direction:column}
 .icon-picker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%}
 .icon-opt{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;border-radius:8px;cursor:pointer;border:1.5px solid transparent;transition:all .12s}
 .icon-opt:hover{background:var(--glass);border-color:var(--border)}
 .icon-opt.sel{border-color:var(--accent);background:rgba(62,207,142,.1)}
 .icon-opt img{width:36px;height:36px;object-fit:contain;border-radius:4px}
-/* 图标名：截断显示，hover 时 title 提示全名 */
-.icon-opt span{font-size:11px;color:var(--text3);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+/* 图标名截断：width:100%+min-width:0 才能在flex子元素里生效 */
+.icon-opt span{font-size:11px;color:var(--text3);width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;display:block}
 .ipanel-footer{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;background:rgba(0,0,0,0.15);flex-shrink:0}
 #icons-panel{display:none}
 .icons-mgr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:12px;margin-top:16px}
