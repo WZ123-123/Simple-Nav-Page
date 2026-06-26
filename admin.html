@@ -118,7 +118,7 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .icon-cell .badge-auto{position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;background:var(--bg);border-radius:50%;border:1px solid var(--border);font-size:7px;display:flex;align-items:center;justify-content:center;line-height:1}
 .icon-cell .badge-custom{position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;background:var(--accent);border-radius:50%;border:1px solid var(--bg)}
 
-/* ── 图标选择面板 ── */
+/* ── 修复1：弹出面板改为固定高度+内部滚动，避免底部截断 ── */
 .ipanel{
   position:fixed;z-index:1000;
   background:rgba(15,20,35,0.92);
@@ -126,19 +126,18 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
   border:1px solid var(--border2);border-radius:var(--radius);
   box-shadow:0 20px 60px rgba(0,0,0,0.7);
   width:380px;
-  max-height:80vh;
   display:flex;flex-direction:column;
+  max-height:calc(100vh - 32px);
   overflow:hidden;
 }
 .ipanel-tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.2);flex-shrink:0}
 .ipanel-tab{flex:1;padding:9px 0;text-align:center;font-size:12px;font-weight:500;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .15s}
 .ipanel-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 .ipanel-tab:hover:not(.active){color:var(--text2)}
-/* FIX: body 可滚动，撑满剩余空间 */
-.ipanel-body{padding:12px;display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
+/* ── 修复2：面板主体可滚动 ── */
+.ipanel-body{padding:12px;overflow-y:auto;flex:1;min-height:0}
 .ipanel-body::-webkit-scrollbar{width:4px}
 .ipanel-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-
 .auto-preview{display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 0}
 .auto-preview .big-icon{width:56px;height:56px;border-radius:12px;border:1px solid var(--border);background:var(--glass);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .auto-preview .big-icon img{width:100%;height:100%;object-fit:contain}
@@ -151,28 +150,19 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .icon-search-wrap{position:relative;margin-bottom:10px;flex-shrink:0}
 .icon-search-wrap input{padding-left:28px;font-size:12px}
 .icon-search-wrap::before{content:'🔍';position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:11px;pointer-events:none}
-
-/* FIX: 图标网格滚动区域 — 不再固定 280px，改为自适应 */
-.icon-grid-scroll{
-  overflow-y:auto;
-  overflow-x:hidden;
-  /* 最大高度由 JS 动态设置，或用 flex 撑满 */
-}
+/* ── 修复3：图标网格改为自适应高度，不固定max-height ── */
+.icon-grid-scroll{overflow-y:auto;overflow-x:hidden;flex:1;min-height:0}
 .icon-grid-scroll::-webkit-scrollbar{width:4px}
 .icon-grid-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-
+/* pick tab 内部用flex布局让网格可伸缩 */
+.pick-tab-inner{display:flex;flex-direction:column;height:100%}
 .icon-picker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%}
 .icon-opt{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;border-radius:8px;cursor:pointer;border:1.5px solid transparent;transition:all .12s}
 .icon-opt:hover{background:var(--glass);border-color:var(--border)}
 .icon-opt.sel{border-color:var(--accent);background:rgba(62,207,142,.1)}
-.icon-opt img{width:36px;height:36px;object-fit:contain;border-radius:4px;flex-shrink:0}
-/* FIX: 图标名截断，不换行，支持 title tooltip */
-.icon-opt span{
-  font-size:11px;color:var(--text3);
-  width:100%;overflow:hidden;text-overflow:ellipsis;
-  white-space:nowrap;text-align:center;
-  display:block;
-}
+.icon-opt img{width:36px;height:36px;object-fit:contain;border-radius:4px}
+/* 图标名：截断显示，hover 时 title 提示全名 */
+.icon-opt span{font-size:11px;color:var(--text3);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
 .ipanel-footer{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;background:rgba(0,0,0,0.15);flex-shrink:0}
 #icons-panel{display:none}
 .icons-mgr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:12px;margin-top:16px}
@@ -196,19 +186,11 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:40px;color:var(--text3);font-size:13px}
 
-/* ── 插入线 ── */
-.drop-line{
-  display:none;height:2px;
-  background:linear-gradient(90deg,var(--accent),var(--accent-blue));
-  border-radius:2px;box-shadow:0 0 6px rgba(62,207,142,0.6);
-  pointer-events:none;position:relative;z-index:10;
-}
+.drop-line{display:none;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-blue));border-radius:2px;box-shadow:0 0 6px rgba(62,207,142,0.6);pointer-events:none;position:relative;z-index:10;}
 .drop-line.show{display:table-row}
 .drop-line td{padding:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-blue));border-radius:2px;box-shadow:0 0 6px rgba(62,207,142,0.6);}
-
 .sec-drag-over{background:rgba(62,207,142,.08)!important;border-color:rgba(62,207,142,.3)!important}
 .sec-hover-enter{background:rgba(62,207,142,.15)!important;border-color:rgba(62,207,142,.5)!important;box-shadow:0 0 0 2px rgba(62,207,142,.2);}
-
 .pwd-wrap{position:relative}
 .pwd-wrap input{padding-right:36px}
 .eye-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);padding:2px;display:flex;align-items:center;font-size:15px;line-height:1}
@@ -216,6 +198,7 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .sec-title-input{max-width:220px;font-size:16px;font-weight:700;background:transparent;border:1px solid transparent;padding:4px 10px;border-radius:var(--radius-sm);color:var(--text);letter-spacing:0.01em;}
 .sec-title-input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06);outline:none}
 
+/* ── 移动端 ── */
 @media (max-width:768px){
   #topbar{padding:0 12px;gap:8px}
   #topbar h1{font-size:13px}
@@ -235,10 +218,8 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
   .protect-toggle{font-size:11px;padding:3px 9px}
   .links-table{min-width:640px}
   .login-card{padding:24px 18px}
-  /* FIX mobile: 面板更窄时也能用 */
-  .ipanel{width:calc(100vw - 24px)!important;left:12px!important;right:12px!important}
-  /* FIX mobile: 图标选择框高度限制更小 */
-  .icon-picker-grid{grid-template-columns:repeat(3,1fr)}
+  /* 移动端弹出面板铺满宽度 */
+  .ipanel{width:calc(100vw - 24px)!important;left:12px!important;right:12px!important;max-height:70vh}
   #toast{bottom:16px;right:12px;left:12px;text-align:center}
   .btn{min-height:36px}
   input[type=text],input[type=url],input[type=password],input[type=search]{min-height:40px;font-size:14px}
@@ -341,6 +322,7 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
   </div>
 </div>
 
+<!-- 修复后的弹出面板：flex布局，footer固定底部 -->
 <div id="ipanel" class="ipanel" style="display:none">
   <div class="ipanel-tabs">
     <div class="ipanel-tab active" onclick="switchITab('auto')">🌐 自动获取</div>
@@ -367,7 +349,6 @@ let TOKEN='',REPO='',BRANCH='main';
 let linksData=[],iconsData=[],linksSha='';
 let currentSec=0,isDirty=false;
 
-// ── 拖动状态 ──
 let dragRowSrc=null;
 let dragSecSrc=null;
 let _crossSecTarget=null;
@@ -588,9 +569,6 @@ function showPanel(p){
   if(p==='icons')renderIconsGrid();
 }
 
-// ════════════════════════════════════════════
-//  侧边栏渲染 & 分类拖动
-// ════════════════════════════════════════════
 function renderSidebar(){
   document.getElementById('sec-list').innerHTML=linksData.map((sec,si)=>`
     <div class="sec-item ${si===currentSec?'active':''}"
@@ -647,9 +625,6 @@ function onSecItemDrop(e,ti){
   setDirty();renderSidebar();renderSection(currentSec);
 }
 
-// ════════════════════════════════════════════
-//  行渲染
-// ════════════════════════════════════════════
 function renderSection(si){
   const panel=document.getElementById('links-content');
   if(!linksData.length){panel.innerHTML='<div class="empty">还没有分类，点击左侧添加</div>';return;}
@@ -683,7 +658,6 @@ function renderSection(si){
         ${sec.items.map((it,ii)=>rowHtml(si,ii,it)).join('')}
       </tbody>
     </table></div>`;
-
   bindRowDrag(si);
 }
 
@@ -827,9 +801,6 @@ function onRowDragEnd(e){
   _crossSecTarget=null;
 }
 
-// ════════════════════════════════════════════
-//  跨分类拖动
-// ════════════════════════════════════════════
 function initSidebarCrossSecDrag(){
   const secList=document.getElementById('sec-list');
   secList.addEventListener('dragover',onSidebarDragOver);
@@ -906,9 +877,6 @@ function clearAllSecHover(){
   document.querySelectorAll('.sec-drag-over').forEach(el=>el.classList.remove('sec-drag-over'));
 }
 
-// ════════════════════════════════════════════
-//  编辑逻辑
-// ════════════════════════════════════════════
 function upd(si,ii,k,v){linksData[si].items[ii][k]=v;setDirty();}
 function updUrl(si,ii,v){
   linksData[si].items[ii].url=v;setDirty();
@@ -939,71 +907,75 @@ function deleteSection(si){
 }
 
 // ════════════════════════════════════════════
-//  图标选择面板 — FIX: 智能定位 + 高度限制
+//  修复后的弹出面板定位逻辑
+//  核心改动：先渲染内容，再用 requestAnimationFrame 两帧后计算实际高度
 // ════════════════════════════════════════════
 function openIPPanel(si,ii,cellEl){
   pickerTarget={si,ii};
   pickerPendingIcon=linksData[si].items[ii].icon||'';
-  const panel=document.getElementById('ipanel');
-  panel.style.visibility='hidden';
-  panel.style.display='flex'; // flex 让内部 body 可以正确 flex:1
 
+  const panel=document.getElementById('ipanel');
+  // 先移到视口外渲染，获取真实尺寸
+  panel.style.visibility='hidden';
+  panel.style.top='-9999px';
+  panel.style.left='0';
+  panel.style.display='flex';
   document.getElementById('ipanel-backdrop').style.display='block';
+
   switchITab(pickerPendingIcon?'pick':'auto');
 
-  requestAnimationFrame(()=>{
-    const GAP=8;
-    const vw=window.innerWidth;
-    const vh=window.innerHeight;
-    const isMobile=vw<=768;
+  // 等两帧确保内容渲染完毕再计算位置
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    positionIPPanel(cellEl);
+    panel.style.visibility='visible';
+  }));
+}
 
-    if(isMobile){
-      // 移动端：固定在屏幕底部弹出，留顶部安全距离
-      const maxH=Math.floor(vh*0.72);
-      panel.style.maxHeight=maxH+'px';
-      panel.style.width=(vw-24)+'px';
-      panel.style.left='12px';
-      panel.style.right='12px';
-      panel.style.top='auto';
-      panel.style.bottom='12px';
-      panel.style.position='fixed';
-      panel.style.visibility='visible';
-      return;
+function positionIPPanel(cellEl){
+  const panel=document.getElementById('ipanel');
+  const rect=cellEl.getBoundingClientRect();
+  const pw=panel.offsetWidth||380;
+  const ph=panel.offsetHeight||300;
+  const vw=window.innerWidth;
+  const vh=window.innerHeight;
+  const GAP=8;
+  const isMobile=vw<=768;
+
+  if(isMobile){
+    // 移动端：水平铺满，垂直居中于视口下半或上半
+    panel.style.left='12px';
+    panel.style.right='12px';
+    panel.style.width='auto';
+    // 优先显示在点击元素下方，不够则上方，再不够居中
+    let top=rect.bottom+GAP;
+    if(top+ph>vh-GAP){
+      top=rect.top-ph-GAP;
     }
-
-    // 桌面端：优先在点击格子下方，空间不足时上移
-    const rect=cellEl.getBoundingClientRect();
-    const pw=380;
-
-    // 计算可用空间：下方空间 & 上方空间
-    const spaceBelow=vh-rect.bottom-GAP;
-    const spaceAbove=rect.top-GAP;
-    // 面板最大高度 = 可用较大侧，但不超过 vh*0.8
-    const maxH=Math.min(Math.max(spaceBelow,spaceAbove,200), Math.floor(vh*0.80));
-    panel.style.maxHeight=maxH+'px';
-    panel.style.width=pw+'px';
-
-    // 水平定位
+    if(top<GAP){
+      top=Math.max(GAP, Math.round((vh-ph)/2));
+    }
+    panel.style.top=top+'px';
+  } else {
+    // 桌面端：优先在元素右下方，碰边则翻转
+    panel.style.width='380px';
+    panel.style.right='';
+    let top=rect.bottom+GAP;
     let left=rect.left;
+
+    // 右边超出
     if(left+pw>vw-GAP) left=vw-pw-GAP;
     if(left<GAP) left=GAP;
-    panel.style.left=left+'px';
-    panel.style.right='auto';
 
-    // 垂直定位：优先下方，不够则上方
-    const panelH=Math.min(panel.scrollHeight||400, maxH);
-    let top;
-    if(spaceBelow>=panelH||spaceBelow>=spaceAbove){
-      top=rect.bottom+GAP;
-    } else {
-      top=rect.top-panelH-GAP;
+    // 下方空间不够 → 向上弹
+    if(top+ph>vh-GAP){
+      top=rect.top-ph-GAP;
     }
-    top=Math.max(GAP, Math.min(top, vh-panelH-GAP));
+    // 上方也不够 → 贴顶
+    if(top<GAP) top=GAP;
+
     panel.style.top=top+'px';
-    panel.style.bottom='auto';
-    panel.style.position='fixed';
-    panel.style.visibility='visible';
-  });
+    panel.style.left=left+'px';
+  }
 }
 
 function closeIPPanel(){
@@ -1011,6 +983,7 @@ function closeIPPanel(){
   document.getElementById('ipanel-backdrop').style.display='none';
   pickerTarget=null;
 }
+
 function switchITab(tab){
   pickerTab=tab;
   document.querySelectorAll('.ipanel-tab').forEach((el,i)=>{
@@ -1018,6 +991,7 @@ function switchITab(tab){
   });
   renderITabBody();
 }
+
 function renderITabBody(){
   const body=document.getElementById('ipanel-body');
   const{si,ii}=pickerTarget||{si:0,ii:0};
@@ -1058,41 +1032,48 @@ function renderITabBody(){
   }else if(pickerTab==='pick'){
     renderPickTab();
   }
+
+  // 切换 tab 后重新定位（内容高度变化）
+  if(pickerTarget){
+    const cellEl=document.querySelector(
+      `#tbody-${pickerTarget.si} tr:nth-child(${pickerTarget.ii+1}) .icon-cell`
+    );
+    if(cellEl){
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        positionIPPanel(cellEl);
+      }));
+    }
+  }
 }
 
-// FIX: pick tab 改为 flex 列布局，搜索框固定顶部，图标网格可滚动
+// 修复：pick tab 用 flex 布局，图标网格撑满可用高度
 function renderPickTab(filter=''){
   const body=document.getElementById('ipanel-body');
 
-  // 如果搜索框已存在，只更新网格
+  // 已有搜索框说明 tab 已初始化，只刷新网格
   if(body.querySelector('.icon-search-wrap')){
-    const filtered=filter
-      ?iconsData.filter(ic=>ic.name.toLowerCase().includes(filter.toLowerCase()))
-      :iconsData;
-    const container=body.querySelector('#icon-grid-container');
-    if(container) renderIconGrid(container,filtered);
+    renderIconGridInner(body, filter);
     return;
   }
 
-  // 首次渲染：搜索框 + 网格容器
-  // body已是flex列（CSS定义），直接写内容
   body.innerHTML=`
-    <div class="icon-search-wrap" style="flex-shrink:0;margin-bottom:8px">
-      <input type="search" placeholder="搜索图标名称…" value="${esc(filter)}"
-        oninput="renderPickTab(this.value)" style="padding-left:28px">
-    </div>
-    <div id="icon-grid-container" class="icon-grid-scroll" style="flex:1;min-height:0">
+    <div class="pick-tab-inner">
+      <div class="icon-search-wrap">
+        <input type="search" placeholder="搜索图标名称…" value="${esc(filter)}"
+          oninput="renderPickTab(this.value)" style="padding-left:28px">
+      </div>
+      <div class="icon-grid-scroll" id="icon-grid-container"></div>
     </div>`;
+  renderIconGridInner(body, filter);
+}
 
+function renderIconGridInner(body, filter){
+  const container=body.querySelector('#icon-grid-container');
+  if(!container)return;
   const filtered=filter
     ?iconsData.filter(ic=>ic.name.toLowerCase().includes(filter.toLowerCase()))
     :iconsData;
-  const container=body.querySelector('#icon-grid-container');
-  renderIconGrid(container,filtered);
-}
 
-// FIX: 图标名 span 加 title 属性（tooltip 显示全名），截断用 CSS 处理
-function renderIconGrid(container,filtered){
   if(!iconsData.length){
     container.innerHTML='<div style="text-align:center;padding:16px;font-size:12px;color:var(--text3)">暂无图标，请先上传</div>';
     return;
@@ -1101,13 +1082,17 @@ function renderIconGrid(container,filtered){
     container.innerHTML='<div style="text-align:center;padding:16px;font-size:12px;color:var(--text3)">没有匹配的图标</div>';
     return;
   }
+
   container.innerHTML=`<div class="icon-picker-grid">
     ${filtered.map(ic=>{
       const val=ICONS_PREFIX+ic.name;
-      const displayName=ic.name.replace(/\.[^.]+$/,''); // 去掉扩展名
-      return`<div class="icon-opt ${pickerPendingIcon===val?'sel':''}" onclick="selectPendingIcon('${val}')">
+      // title 属性显示完整文件名，span 截断显示
+      const shortName=ic.name.replace(/\.[^.]+$/,'');
+      return`<div class="icon-opt ${pickerPendingIcon===val?'sel':''}"
+        onclick="selectPendingIcon('${val}')"
+        title="${esc(ic.name)}">
         <img src="${SITE_ICON_BASE+ic.name}?t=${ic.sha.slice(-6)}" alt="${esc(ic.name)}" onerror="this.src='${ic.url}'">
-        <span title="${esc(ic.name)}">${esc(displayName)}</span>
+        <span>${esc(shortName)}</span>
       </div>`;
     }).join('')}
   </div>`;
@@ -1198,7 +1183,7 @@ function renderIconsGrid(){
   g.innerHTML=iconsData.map(ic=>`
     <div class="icon-card">
       <img src="${SITE_ICON_BASE+ic.name}?t=${ic.sha.slice(-6)}" alt="${ic.name}" onerror="this.src='${ic.url}'">
-      <div class="iname" title="${esc(ic.name)}">${ic.name}</div>
+      <div class="iname">${ic.name}</div>
       <button class="del-icon" onclick="deleteIcon('${ic.name}','${ic.sha}')">✕</button>
     </div>`).join('');
 }
@@ -1232,7 +1217,7 @@ async function uploadIconFiles(files){
     }
   }
   prog.style.display='none';
-  if(done>0) toast(`✅ 上传完成，共 ${done} 个图标${fail>0?`，${fail} 个失败`:''}`);
+  if(done>0) toast(`✅ 上传完成，共 ${done} 个图标${fail>0?`，${fail} 个失败`:''}` );
 }
 
 async function saveAll(){
