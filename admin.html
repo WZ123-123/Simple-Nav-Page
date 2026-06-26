@@ -117,12 +117,28 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .icon-cell img{width:100%;height:100%;object-fit:contain}
 .icon-cell .badge-auto{position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;background:var(--bg);border-radius:50%;border:1px solid var(--border);font-size:7px;display:flex;align-items:center;justify-content:center;line-height:1}
 .icon-cell .badge-custom{position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;background:var(--accent);border-radius:50%;border:1px solid var(--bg)}
-.ipanel{position:fixed;z-index:1000;background:rgba(15,20,35,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--border2);border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,0.7);width:380px;overflow-x:hidden;overflow-y:hidden;}
-.ipanel-tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.2)}
+
+/* ── 图标选择面板 ── */
+.ipanel{
+  position:fixed;z-index:1000;
+  background:rgba(15,20,35,0.92);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--border2);border-radius:var(--radius);
+  box-shadow:0 20px 60px rgba(0,0,0,0.7);
+  width:380px;
+  /* FIX: 限制最大高度，内部滚动 */
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.ipanel-tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.2);flex-shrink:0}
 .ipanel-tab{flex:1;padding:9px 0;text-align:center;font-size:12px;font-weight:500;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .15s}
 .ipanel-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 .ipanel-tab:hover:not(.active){color:var(--text2)}
-.ipanel-body{padding:12px}
+/* FIX: body 可滚动，撑满剩余空间 */
+.ipanel-body{padding:12px;overflow-y:auto;flex:1;min-height:0}
+.ipanel-body::-webkit-scrollbar{width:4px}
+.ipanel-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
 .auto-preview{display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 0}
 .auto-preview .big-icon{width:56px;height:56px;border-radius:12px;border:1px solid var(--border);background:var(--glass);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .auto-preview .big-icon img{width:100%;height:100%;object-fit:contain}
@@ -132,17 +148,32 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .upload-mini:hover,.upload-mini.drag{border-color:var(--accent);background:rgba(62,207,142,.05)}
 .upload-mini p{color:var(--text2);font-size:12px;margin-top:6px}
 .upload-mini small{color:var(--text3);font-size:11px}
-.icon-search-wrap{position:relative;margin-bottom:10px}
+.icon-search-wrap{position:relative;margin-bottom:10px;flex-shrink:0}
 .icon-search-wrap input{padding-left:28px;font-size:12px}
 .icon-search-wrap::before{content:'🔍';position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:11px;pointer-events:none}
-.icon-grid-scroll{max-height:280px;overflow-y:auto;overflow-x:hidden}
+
+/* FIX: 图标网格滚动区域 — 不再固定 280px，改为自适应 */
+.icon-grid-scroll{
+  overflow-y:auto;
+  overflow-x:hidden;
+  /* 最大高度由 JS 动态设置，或用 flex 撑满 */
+}
+.icon-grid-scroll::-webkit-scrollbar{width:4px}
+.icon-grid-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
 .icon-picker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%}
 .icon-opt{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;border-radius:8px;cursor:pointer;border:1.5px solid transparent;transition:all .12s}
 .icon-opt:hover{background:var(--glass);border-color:var(--border)}
 .icon-opt.sel{border-color:var(--accent);background:rgba(62,207,142,.1)}
-.icon-opt img{width:36px;height:36px;object-fit:contain;border-radius:4px}
-.icon-opt span{font-size:11px;color:var(--text3);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
-.ipanel-footer{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;background:rgba(0,0,0,0.15)}
+.icon-opt img{width:36px;height:36px;object-fit:contain;border-radius:4px;flex-shrink:0}
+/* FIX: 图标名截断，不换行，支持 title tooltip */
+.icon-opt span{
+  font-size:11px;color:var(--text3);
+  width:100%;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;text-align:center;
+  display:block;
+}
+.ipanel-footer{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;background:rgba(0,0,0,0.15);flex-shrink:0}
 #icons-panel{display:none}
 .icons-mgr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:12px;margin-top:16px}
 .icons-mgr-grid .empty{grid-column:1/-1;writing-mode:horizontal-tb}
@@ -184,6 +215,7 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .eye-btn:hover{color:var(--text2)}
 .sec-title-input{max-width:220px;font-size:16px;font-weight:700;background:transparent;border:1px solid transparent;padding:4px 10px;border-radius:var(--radius-sm);color:var(--text);letter-spacing:0.01em;}
 .sec-title-input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06);outline:none}
+
 @media (max-width:768px){
   #topbar{padding:0 12px;gap:8px}
   #topbar h1{font-size:13px}
@@ -203,7 +235,10 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
   .protect-toggle{font-size:11px;padding:3px 9px}
   .links-table{min-width:640px}
   .login-card{padding:24px 18px}
+  /* FIX mobile: 面板更窄时也能用 */
   .ipanel{width:calc(100vw - 24px)!important;left:12px!important;right:12px!important}
+  /* FIX mobile: 图标选择框高度限制更小 */
+  .icon-picker-grid{grid-template-columns:repeat(3,1fr)}
   #toast{bottom:16px;right:12px;left:12px;text-align:center}
   .btn{min-height:36px}
   input[type=text],input[type=url],input[type=password],input[type=search]{min-height:40px;font-size:14px}
@@ -333,10 +368,10 @@ let linksData=[],iconsData=[],linksSha='';
 let currentSec=0,isDirty=false;
 
 // ── 拖动状态 ──
-let dragRowSrc=null;      // {si, ii} 行拖动来源
-let dragSecSrc=null;      // 分类拖动来源索引
-let _crossSecTarget=null; // 跨分类拖动目标分类索引
-let _secHoverTimer=null;  // 悬停计时器
+let dragRowSrc=null;
+let dragSecSrc=null;
+let _crossSecTarget=null;
+let _secHoverTimer=null;
 
 let pickerTarget=null;
 let pickerTab='auto';
@@ -554,7 +589,7 @@ function showPanel(p){
 }
 
 // ════════════════════════════════════════════
-//  侧边栏渲染 & 分类拖动（侧边栏内部排序）
+//  侧边栏渲染 & 分类拖动
 // ════════════════════════════════════════════
 function renderSidebar(){
   document.getElementById('sec-list').innerHTML=linksData.map((sec,si)=>`
@@ -577,7 +612,6 @@ function selectSection(si){
   if(window.innerWidth<=768)closeMobSidebar();
 }
 
-// 分类 handle 按下 → 激活该 sec-item 的 draggable
 function onSecHandleMousedown(e,si){
   e.stopPropagation();
   const item=document.querySelector(`.sec-item[data-si="${si}"]`);
@@ -585,21 +619,17 @@ function onSecHandleMousedown(e,si){
   item.draggable=true;
   dragSecSrc=si;
   item.style.opacity='.4';
-
   const cleanup=()=>{
     item.draggable=false;
     item.style.opacity='';
     document.removeEventListener('dragend',cleanup);
   };
   document.addEventListener('dragend',cleanup);
-
-  // 同步触发浏览器 drag（需要在 mousedown 同帧内让元素 draggable=true）
-  // 浏览器会在下一帧自动捕捉 dragstart；这里不需要手动 dispatchEvent
 }
 
 function onSecItemDragOver(e,ti){
-  if(dragSecSrc===null)return;   // 只处理分类排序，行拖动走行的逻辑
-  if(dragRowSrc!==null)return;   // 行拖动时不响应分类排序
+  if(dragSecSrc===null)return;
+  if(dragRowSrc!==null)return;
   e.preventDefault();
   document.querySelectorAll('.sec-item').forEach(el=>el.classList.remove('sec-drag-over'));
   document.querySelector(`.sec-item[data-si="${ti}"]`)?.classList.add('sec-drag-over');
@@ -654,7 +684,6 @@ function renderSection(si){
       </tbody>
     </table></div>`;
 
-  // 为所有行绑定拖动事件（在 JS 里绑定，避免 draggable 固定为 true）
   bindRowDrag(si);
 }
 
@@ -680,7 +709,6 @@ function iconCellHtml(si,ii,it){
 }
 
 function rowHtml(si,ii,it){
-  // draggable 不写在 HTML 里，由 JS 的 handle mousedown 控制
   return`<tr data-si="${si}" data-ii="${ii}"
     ondragover="onRowDragOver(event,${si},${ii})"
     ondragleave="onRowDragLeave(event)"
@@ -699,39 +727,28 @@ function rowHtml(si,ii,it){
   </tr>`;
 }
 
-// ════════════════════════════════════════════
-//  行拖动：只有 ⠿ handle 能激活
-// ════════════════════════════════════════════
-function bindRowDrag(si){
-  // 不需要额外绑定，handle 的 onmousedown 已在 rowHtml 里声明
-}
+function bindRowDrag(si){}
 
 function onRowHandleMousedown(e,si,ii){
   e.stopPropagation();
   const row=e.currentTarget.closest('tr');
   if(!row)return;
-
   row.draggable=true;
   dragRowSrc={si,ii};
   row.style.opacity='.4';
-
-  // 拖动结束时清理（dragend 在 onRowDragEnd 里处理）
 }
 
-// 插入线：在 tbody 里插入一个特殊行作为视觉提示
 let _dropLineRow=null;
-let _dropLinePos=null; // {si, afterIdx} afterIdx=-1 表示插到最前
+let _dropLinePos=null;
 
 function showDropLine(tbodyEl,afterRowIdx,totalRows){
   removeDropLine();
   const tr=document.createElement('tr');
   tr.className='drop-line show';
-  // 占满所有列
   const td=document.createElement('td');
   td.colSpan=8;
   td.style.cssText='padding:0;height:2px;background:linear-gradient(90deg,var(--accent,#3ecf8e),var(--accent-blue,#5b8ef5));border-radius:2px;box-shadow:0 0 6px rgba(62,207,142,0.6);';
   tr.appendChild(td);
-
   const rows=tbodyEl.querySelectorAll('tr:not(.drop-line)');
   if(afterRowIdx>=rows.length-1){
     tbodyEl.appendChild(tr);
@@ -749,70 +766,49 @@ function removeDropLine(){
 function onRowDragOver(e,si,ii){
   e.preventDefault();
   e.dataTransfer.dropEffect='move';
-
-  // 判断鼠标在行的上半还是下半
   const row=e.currentTarget;
   const rect=row.getBoundingClientRect();
   const mid=rect.top+rect.height/2;
   const insertAfter=e.clientY>mid;
-  const targetIdx=insertAfter?ii:ii-1; // 插在 ii 行之后
-
+  const targetIdx=insertAfter?ii:ii-1;
   _dropLinePos={si,afterIdx:targetIdx};
-
   const tbody=document.getElementById(`tbody-${si}`);
   if(tbody) showDropLine(tbody,targetIdx,linksData[si].items.length);
 }
 
-function onRowDragLeave(e){
-  // 不立即移除插入线，避免划过子元素时闪烁
-  // 在 dragover 下一帧会更新或在 dragend 清理
-}
+function onRowDragLeave(e){}
 
 function onRowDrop(e,si,ii){
   e.preventDefault();
   removeDropLine();
-
   if(!dragRowSrc)return;
-
   const srcSi=dragRowSrc.si;
   const srcIi=dragRowSrc.ii;
-
-  // 判断插入位置
   const row=e.currentTarget;
   const rect=row.getBoundingClientRect();
   const insertAfter=e.clientY>rect.top+rect.height/2;
   let targetIdx=insertAfter?ii:ii-1;
-
-  // 同分类内移动
   if(srcSi===si){
     if(srcIi===ii||(insertAfter&&srcIi===ii)||(srcIi===targetIdx+1)){}
     else{
       const items=linksData[si].items;
       const[m]=items.splice(srcIi,1);
-      // 调整目标索引（因为 splice 已经移走了一个元素）
-      let insertAt=insertAfter?ii:ii;
-      if(srcIi<ii) insertAt=insertAfter?ii-1:ii-1;
-      else insertAt=insertAfter?ii+1:ii;
-      // 简化：直接用 targetIdx
       let at=targetIdx+1;
       if(srcIi<at) at--;
       items.splice(Math.max(0,at),0,m);
       setDirty();renderSection(si);
     }
   } else {
-    // 跨分类移动
     const[m]=linksData[srcSi].items.splice(srcIi,1);
     let at=targetIdx+1;
     if(at<0)at=0;
     linksData[si].items.splice(at,0,m);
     setDirty();
-    // 切换到目标分类
     currentSec=si;
     renderSidebar();
     renderSection(si);
     toast(`已移动到「${linksData[si].section}」`);
   }
-
   dragRowSrc=null;
   _dropLinePos=null;
   _crossSecTarget=null;
@@ -824,7 +820,6 @@ function onRowDragEnd(e){
   removeDropLine();
   const row=e.currentTarget;
   if(row){row.draggable=false;row.style.opacity='';}
-  // 清理所有高亮
   clearAllSecHover();
   clearSecHoverTimer();
   dragRowSrc=null;
@@ -833,10 +828,8 @@ function onRowDragEnd(e){
 }
 
 // ════════════════════════════════════════════
-//  跨分类：侧边栏分类悬停切换
+//  跨分类拖动
 // ════════════════════════════════════════════
-// 在 sidebar 的 sec-item 上监听行拖动时的 dragover
-
 function initSidebarCrossSecDrag(){
   const secList=document.getElementById('sec-list');
   secList.addEventListener('dragover',onSidebarDragOver);
@@ -845,29 +838,23 @@ function initSidebarCrossSecDrag(){
 }
 
 function onSidebarDragOver(e){
-  if(!dragRowSrc)return; // 只在行拖动时响应
+  if(!dragRowSrc)return;
   e.preventDefault();
   e.dataTransfer.dropEffect='move';
-
   const item=e.target.closest('.sec-item');
   if(!item)return;
   const si=parseInt(item.dataset.si);
   if(isNaN(si))return;
-
   if(_crossSecTarget!==si){
     _crossSecTarget=si;
     clearSecHoverTimer();
-    // 高亮悬停目标
     clearAllSecHover();
     item.classList.add('sec-hover-enter');
-
-    // 300ms 后自动切换到该分类
     _secHoverTimer=setTimeout(()=>{
       if(_crossSecTarget===si&&dragRowSrc){
         currentSec=si;
         renderSidebar();
         renderSection(si);
-        // 重新绑定悬停高亮（renderSidebar 会重建 DOM）
         const newItem=document.querySelector(`.sec-item[data-si="${si}"]`);
         if(newItem) newItem.classList.add('sec-hover-enter');
       }
@@ -878,7 +865,6 @@ function onSidebarDragOver(e){
 function onSidebarDragLeave(e){
   const item=e.target.closest('.sec-item');
   if(!item)return;
-  // 判断是否真的离开了这个 item（而非进入了子元素）
   const related=e.relatedTarget;
   if(related&&item.contains(related))return;
   const si=parseInt(item.dataset.si);
@@ -892,17 +878,13 @@ function onSidebarDragLeave(e){
 function onSidebarDrop(e){
   if(!dragRowSrc)return;
   e.preventDefault();
-  // 放到分类上（没有精确行）→ 追加到末尾
   const item=e.target.closest('.sec-item');
   if(!item)return;
   const si=parseInt(item.dataset.si);
   if(isNaN(si))return;
-
   const srcSi=dragRowSrc.si;
   const srcIi=dragRowSrc.ii;
-
-  if(srcSi===si)return; // 同分类直接松手，走行的 drop
-
+  if(srcSi===si)return;
   const[m]=linksData[srcSi].items.splice(srcIi,1);
   linksData[si].items.push(m);
   setDirty();
@@ -910,7 +892,6 @@ function onSidebarDrop(e){
   renderSidebar();
   renderSection(si);
   toast(`已移动到「${linksData[si].section}」末尾`);
-
   dragRowSrc=null;
   clearAllSecHover();
   clearSecHoverTimer();
@@ -926,7 +907,7 @@ function clearAllSecHover(){
 }
 
 // ════════════════════════════════════════════
-//  其余原有逻辑（未改动）
+//  编辑逻辑
 // ════════════════════════════════════════════
 function upd(si,ii,k,v){linksData[si].items[ii][k]=v;setDirty();}
 function updUrl(si,ii,v){
@@ -957,32 +938,74 @@ function deleteSection(si){
   linksData.splice(si,1);currentSec=Math.max(0,si-1);setDirty();renderSidebar();renderSection(currentSec);
 }
 
+// ════════════════════════════════════════════
+//  图标选择面板 — FIX: 智能定位 + 高度限制
+// ════════════════════════════════════════════
 function openIPPanel(si,ii,cellEl){
   pickerTarget={si,ii};
   pickerPendingIcon=linksData[si].items[ii].icon||'';
   const panel=document.getElementById('ipanel');
   panel.style.visibility='hidden';
-  panel.style.display='block';
+  panel.style.display='flex'; // flex 让内部 body 可以正确 flex:1
+
   document.getElementById('ipanel-backdrop').style.display='block';
   switchITab(pickerPendingIcon?'pick':'auto');
+
   requestAnimationFrame(()=>{
-    const rect=cellEl.getBoundingClientRect();
-    const pw=panel.offsetWidth||300;
-    const ph=panel.offsetHeight||260;
+    const GAP=8;
     const vw=window.innerWidth;
     const vh=window.innerHeight;
-    const GAP=8;
-    let top=rect.bottom+GAP;
-    if(top+ph>vh-GAP) top=Math.max(GAP, rect.top-ph-GAP);
+    const isMobile=vw<=768;
+
+    if(isMobile){
+      // 移动端：固定在屏幕底部弹出，留顶部安全距离
+      const maxH=Math.floor(vh*0.72);
+      panel.style.maxHeight=maxH+'px';
+      panel.style.width=(vw-24)+'px';
+      panel.style.left='12px';
+      panel.style.right='12px';
+      panel.style.top='auto';
+      panel.style.bottom='12px';
+      panel.style.position='fixed';
+      panel.style.visibility='visible';
+      return;
+    }
+
+    // 桌面端：优先在点击格子下方，空间不足时上移
+    const rect=cellEl.getBoundingClientRect();
+    const pw=380;
+
+    // 计算可用空间：下方空间 & 上方空间
+    const spaceBelow=vh-rect.bottom-GAP;
+    const spaceAbove=rect.top-GAP;
+    // 面板最大高度 = 可用较大侧，但不超过 vh*0.8
+    const maxH=Math.min(Math.max(spaceBelow,spaceAbove,200), Math.floor(vh*0.80));
+    panel.style.maxHeight=maxH+'px';
+    panel.style.width=pw+'px';
+
+    // 水平定位
     let left=rect.left;
     if(left+pw>vw-GAP) left=vw-pw-GAP;
     if(left<GAP) left=GAP;
-    panel.style.position='fixed';
-    panel.style.top=top+'px';
     panel.style.left=left+'px';
+    panel.style.right='auto';
+
+    // 垂直定位：优先下方，不够则上方
+    const panelH=Math.min(panel.scrollHeight||400, maxH);
+    let top;
+    if(spaceBelow>=panelH||spaceBelow>=spaceAbove){
+      top=rect.bottom+GAP;
+    } else {
+      top=rect.top-panelH-GAP;
+    }
+    top=Math.max(GAP, Math.min(top, vh-panelH-GAP));
+    panel.style.top=top+'px';
+    panel.style.bottom='auto';
+    panel.style.position='fixed';
     panel.style.visibility='visible';
   });
 }
+
 function closeIPPanel(){
   document.getElementById('ipanel').style.display='none';
   document.getElementById('ipanel-backdrop').style.display='none';
@@ -1037,43 +1060,60 @@ function renderITabBody(){
   }
 }
 
+// FIX: pick tab 改为 flex 列布局，搜索框固定顶部，图标网格可滚动
 function renderPickTab(filter=''){
   const body=document.getElementById('ipanel-body');
-  const filtered=filter
-    ?iconsData.filter(ic=>ic.name.toLowerCase().includes(filter.toLowerCase()))
-    :iconsData;
 
-  const existing=body.querySelector('.icon-search-wrap');
-  if(existing){
-    renderIconGrid(body,filtered,filter);
+  // 如果搜索框已存在，只更新网格
+  if(body.querySelector('.icon-search-wrap')){
+    const filtered=filter
+      ?iconsData.filter(ic=>ic.name.toLowerCase().includes(filter.toLowerCase()))
+      :iconsData;
+    const container=body.querySelector('#icon-grid-container');
+    if(container) renderIconGrid(container,filtered);
     return;
   }
 
+  // 首次渲染：搜索框 + 网格容器
+  body.style.display='flex';
+  body.style.flexDirection='column';
+  body.style.overflow='hidden'; // body 自身不滚动，网格内部滚动
   body.innerHTML=`
-    <div class="icon-search-wrap">
+    <div class="icon-search-wrap" style="flex-shrink:0;padding-bottom:2px">
       <input type="search" placeholder="搜索图标名称…" value="${esc(filter)}"
         oninput="renderPickTab(this.value)" style="padding-left:28px">
     </div>
-    <div id="icon-grid-container"></div>`;
-  renderIconGrid(body,filtered,filter);
+    <div id="icon-grid-container"
+      style="flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;padding-right:2px">
+    </div>`;
+
+  const filtered=filter
+    ?iconsData.filter(ic=>ic.name.toLowerCase().includes(filter.toLowerCase()))
+    :iconsData;
+  const container=body.querySelector('#icon-grid-container');
+  renderIconGrid(container,filtered);
 }
 
-function renderIconGrid(body,filtered,filter){
-  const container=body.querySelector('#icon-grid-container')||body.querySelector('.icon-grid-scroll')?.parentNode;
-  const html=!iconsData.length
-    ?'<div style="text-align:center;padding:16px;font-size:12px;color:var(--text3)">暂无图标，请先上传</div>'
-    :filtered.length===0
-      ?'<div style="text-align:center;padding:16px;font-size:12px;color:var(--text3)">没有匹配的图标</div>'
-      :`<div class="icon-grid-scroll"><div class="icon-picker-grid">
-        ${filtered.map(ic=>{
-          const val=ICONS_PREFIX+ic.name;
-          return`<div class="icon-opt ${pickerPendingIcon===val?'sel':''}" onclick="selectPendingIcon('${val}')">
-            <img src="${SITE_ICON_BASE+ic.name}?t=${ic.sha.slice(-6)}" alt="${ic.name}" onerror="this.src='${ic.url}'">
-            <span>${ic.name.replace(/\.[^.]+$/,'')}</span>
-          </div>`;
-        }).join('')}
-      </div></div>`;
-  if(container) container.innerHTML=html;
+// FIX: 图标名 span 加 title 属性（tooltip 显示全名），截断用 CSS 处理
+function renderIconGrid(container,filtered){
+  if(!iconsData.length){
+    container.innerHTML='<div style="text-align:center;padding:16px;font-size:12px;color:var(--text3)">暂无图标，请先上传</div>';
+    return;
+  }
+  if(!filtered.length){
+    container.innerHTML='<div style="text-align:center;padding:16px;font-size:12px;color:var(--text3)">没有匹配的图标</div>';
+    return;
+  }
+  container.innerHTML=`<div class="icon-picker-grid">
+    ${filtered.map(ic=>{
+      const val=ICONS_PREFIX+ic.name;
+      const displayName=ic.name.replace(/\.[^.]+$/,''); // 去掉扩展名
+      return`<div class="icon-opt ${pickerPendingIcon===val?'sel':''}" onclick="selectPendingIcon('${val}')">
+        <img src="${SITE_ICON_BASE+ic.name}?t=${ic.sha.slice(-6)}" alt="${esc(ic.name)}" onerror="this.src='${ic.url}'">
+        <span title="${esc(ic.name)}">${esc(displayName)}</span>
+      </div>`;
+    }).join('')}
+  </div>`;
 }
 
 function selectPendingIcon(val){
@@ -1161,7 +1201,7 @@ function renderIconsGrid(){
   g.innerHTML=iconsData.map(ic=>`
     <div class="icon-card">
       <img src="${SITE_ICON_BASE+ic.name}?t=${ic.sha.slice(-6)}" alt="${ic.name}" onerror="this.src='${ic.url}'">
-      <div class="iname">${ic.name}</div>
+      <div class="iname" title="${esc(ic.name)}">${ic.name}</div>
       <button class="del-icon" onclick="deleteIcon('${ic.name}','${ic.sha}')">✕</button>
     </div>`).join('');
 }
@@ -1174,7 +1214,6 @@ async function uploadIconFiles(files){
   const prog=document.getElementById('upload-prog'),bar=document.getElementById('prog-bar'),txt=document.getElementById('prog-txt');
   prog.style.display='block';
   let done=0, fail=0;
-
   for(const file of files){
     txt.textContent=`上传 ${file.name}（${done+fail+1}/${files.length}）`;
     bar.style.width=((done+fail)/files.length*100)+'%';
@@ -1195,9 +1234,8 @@ async function uploadIconFiles(files){
       toast('上传 '+file.name+' 失败：'+e.message,'err');
     }
   }
-
   prog.style.display='none';
-  if(done>0) toast(`✅ 上传完成，共 ${done} 个图标${fail>0?`，${fail} 个失败`:''}` );
+  if(done>0) toast(`✅ 上传完成，共 ${done} 个图标${fail>0?`，${fail} 个失败`:''}`);
 }
 
 async function saveAll(){
@@ -1245,7 +1283,6 @@ function closeMobSidebar(){
 
 window.addEventListener('beforeunload',e=>{if(isDirty){e.preventDefault();e.returnValue='';}});
 
-// 初始化跨分类拖动监听（sidebar 建好后）
 document.addEventListener('DOMContentLoaded',()=>{
   initSidebarCrossSecDrag();
 });
