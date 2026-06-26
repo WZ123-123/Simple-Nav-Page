@@ -917,59 +917,12 @@
         "url": "https://www.mihoyo.com/",
         "desc": "原神、星铁、崩坏",
         "data-desc": "米哈游官方网站，原神、崩坏：星穹铁道、崩坏3，二次元游戏"
-      }
-    ]
-  },
-  {
-    "section": "其他导航",
-    "items": [
-      {
-        "title": "Hao123",
-        "url": "https://www.hao123.com/",
-        "desc": "综合导航站",
-        "data-desc": "老牌综合网址导航站，Hao123，好123，日常常用网站入口"
       },
       {
-        "title": "tool.lu",
-        "url": "https://tool.lu/",
-        "desc": "在线工具箱",
-        "data-desc": "在线开发者工具集合，tool.lu，代码格式化、加密、时间戳转换"
-      },
-      {
-        "title": "OSCHINA",
-        "url": "https://www.oschina.net/",
-        "desc": "开源中国技术社区",
-        "data-desc": "开源中国，OSCHINA，国内开源技术社区与开源软件聚合导航"
-      },
-      {
-        "title": "Awesome Lists",
-        "url": "https://github.com/sindresorhus/awesome",
-        "desc": "GitHub精选资源列表",
-        "data-desc": "GitHub 上最著名的精选资源合集，Awesome Lists，各领域优质资源"
-      },
-      {
-        "title": "AlternativeTo",
-        "url": "https://alternativeto.net/",
-        "desc": "软件替代品搜索",
-        "data-desc": "寻找软件替代品的导航平台，AlternativeTo，找免费开源替代工具"
-      },
-      {
-        "title": "小众软件",
-        "url": "https://www.appinn.com/",
-        "desc": "软件发现与推荐",
-        "data-desc": "小众软件发现与推荐社区，appinn，免费、实用、冷门软件推荐"
-      },
-      {
-        "title": "反斗软件",
-        "url": "https://www.apprcn.com/",
-        "desc": "正版软件促销信息",
-        "data-desc": "正版软件限免与促销信息聚合，反斗软件，捡漏付费软件免费版"
-      },
-      {
-        "title": "FMHY",
-        "url": "https://fmhy.net/",
-        "desc": "免费资源大全",
-        "data-desc": "全网最大免费资源导航合集，FMHY，涵盖工具、影视、学习、软件"
+        "title": "saaslandingpage.com",
+        "url": "https://saaslandingpage.com/",
+        "desc": "优秀落地页设计精选",
+        "data-desc": "SaaS 产品落地页设计案例精选，saaslandingpage，设计灵感参考"
       },
       {
         "title": "W3Schools",
@@ -978,11 +931,57 @@
         "data-desc": "Web 开发技术教程与参考文档，W3Schools，HTML、CSS、JS入门"
       },
       {
-        "title": "saaslandingpage.com",
-        "url": "https://saaslandingpage.com/",
-        "desc": "优秀落地页设计精选",
-        "data-desc": "SaaS 产品落地页设计案例精选，saaslandingpage，设计灵感参考"
+        "title": "FMHY",
+        "url": "https://fmhy.net/",
+        "desc": "免费资源大全",
+        "data-desc": "全网最大免费资源导航合集，FMHY，涵盖工具、影视、学习、软件"
+      },
+      {
+        "title": "反斗软件",
+        "url": "https://www.apprcn.com/",
+        "desc": "正版软件促销信息",
+        "data-desc": "正版软件限免与促销信息聚合，反斗软件，捡漏付费软件免费版"
+      },
+      {
+        "title": "小众软件",
+        "url": "https://www.appinn.com/",
+        "desc": "软件发现与推荐",
+        "data-desc": "小众软件发现与推荐社区，appinn，免费、实用、冷门软件推荐"
+      },
+      {
+        "title": "AlternativeTo",
+        "url": "https://alternativeto.net/",
+        "desc": "软件替代品搜索",
+        "data-desc": "寻找软件替代品的导航平台，AlternativeTo，找免费开源替代工具"
+      },
+      {
+        "title": "Awesome Lists",
+        "url": "https://github.com/sindresorhus/awesome",
+        "desc": "GitHub精选资源列表",
+        "data-desc": "GitHub 上最著名的精选资源合集，Awesome Lists，各领域优质资源"
+      },
+      {
+        "title": "OSCHINA",
+        "url": "https://www.oschina.net/",
+        "desc": "开源中国技术社区",
+        "data-desc": "开源中国，OSCHINA，国内开源技术社区与开源软件聚合导航"
+      },
+      {
+        "title": "tool.lu",
+        "url": "https://tool.lu/",
+        "desc": "在线工具箱",
+        "data-desc": "在线开发者工具集合，tool.lu，代码格式化、加密、时间戳转换"
+      },
+      {
+        "title": "Hao123",
+        "url": "https://www.hao123.com/",
+        "desc": "综合导航站",
+        "data-desc": "老牌综合网址导航站，Hao123，好123，日常常用网站入口"
       }
     ]
+  },
+  {
+    "section": "其他导航",
+    "items": []
   }
 ]
