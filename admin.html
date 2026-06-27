@@ -135,21 +135,16 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .ipanel-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 .ipanel-tab:hover:not(.active){color:var(--text2)}
 
-/* ── body区：撑满剩余高度，内容超出时整体可滚动 ── */
+/* ── body区：作为flex容器撑满剩余高度 ── */
 .ipanel-body{
-  flex:1;          /* 撑满tabs和footer之间的所有空间 */
-  min-height:0;    /* flex子项必须设置，否则overflow不生效 */
-  overflow-y:auto; /* 内容超出时出现滚动条 */
-  overflow-x:hidden;
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
 }
 .ipanel-body::-webkit-scrollbar{width:4px}
 .ipanel-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-
-/* ── 已上传tab内部布局 ── */
-.pick-wrap{
-  display:flex;flex-direction:column;
-  height:100%; /* 撑满ipanel-body */
-}
 .pick-search{
   padding:10px 12px 6px;
   flex-shrink:0;
@@ -794,32 +789,21 @@ function openIPPanel(si,ii,cellEl){
   document.getElementById('ipanel-backdrop').style.display='block';
   switchITab(pickerPendingIcon?'pick':'auto');
 
-  // 用两帧确保内容已渲染，能测量真实尺寸
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  requestAnimationFrame(()=>{
     const GAP=8;
     const vw=window.innerWidth,vh=window.innerHeight;
     const isMobile=vw<=768;
     const rect=cellEl.getBoundingClientRect();
 
     const pw=isMobile?vw-24:360;
-    const spaceBelow=vh-rect.bottom-GAP;
-    const spaceAbove=rect.top-GAP;
-
-    // 面板最大高度 = 可用空间（取上下较大者），但至少200px
+    const spaceBelow=vh-rect.bottom-GAP*2;
+    const spaceAbove=rect.top-GAP*2;
     const useBelow=spaceBelow>=spaceAbove||spaceBelow>=240;
-    const maxH=Math.max(useBelow?spaceBelow:spaceAbove,200)-GAP;
 
-    panel.style.maxHeight=maxH+'px';
-
-    // 垂直位置
-    let top;
-    if(useBelow){
-      top=rect.bottom+GAP;
-    }else{
-      // 向上展开：面板底部紧贴cellEl顶部
-      top=rect.top-GAP-Math.min(maxH,panel.scrollHeight||400);
-      top=Math.max(GAP,top);
-    }
+    // 关键：用明确的 height 而非 max-height，这样内部 flex:1 才能正确撑开
+    const panelH=Math.max(useBelow?spaceBelow:spaceAbove,200);
+    panel.style.height=panelH+'px';
+    panel.style.maxHeight='';
 
     // 水平位置
     let left=isMobile?12:rect.left;
@@ -827,14 +811,21 @@ function openIPPanel(si,ii,cellEl){
       if(left+pw>vw-GAP)left=vw-pw-GAP;
       if(left<GAP)left=GAP;
     }
-
     panel.style.width=pw+'px';
-    panel.style.top=top+'px';
     panel.style.left=left+'px';
     panel.style.right='auto';
-    panel.style.bottom='auto';
+
+    // 垂直位置：向下用top，向上用bottom（更精准，不用猜面板实际高度）
+    if(useBelow){
+      panel.style.top=(rect.bottom+GAP)+'px';
+      panel.style.bottom='auto';
+    }else{
+      panel.style.top='auto';
+      panel.style.bottom=(vh-rect.top+GAP)+'px';
+    }
+
     panel.style.visibility='visible';
-  }));
+  });
 }
 
 function closeIPPanel(){
@@ -851,8 +842,8 @@ function switchITab(tab){
 }
 function renderITabBody(){
   const body=document.getElementById('ipanel-body');
-  // 重置body样式（pick tab会修改它）
-  body.removeAttribute('style');
+  // 每次切换tab前重置overflow（各tab自己设置）
+  body.style.overflowY='hidden';
 
   const{si,ii}=pickerTarget||{si:0,ii:0};
   const item=linksData[si]?.items[ii]||{};
@@ -861,6 +852,8 @@ function renderITabBody(){
   if(pickerTab==='auto'){
     const favUrl=domain?buildFaviconUrl(domain):'';
     pickerPendingIcon='';
+    // auto tab：内容少，body整体overflow-y:auto即可
+    body.style.overflowY='auto';
     body.innerHTML=`<div class="auto-preview">
       <div class="big-icon">
         ${favUrl?`<img src="${favUrl}" alt="" onerror="this.parentNode.innerHTML='🌐'" style="width:100%;height:100%;object-fit:contain">`:'<span style="font-size:28px">🌐</span>'}
@@ -871,6 +864,7 @@ function renderITabBody(){
     </div>`;
 
   }else if(pickerTab==='upload'){
+    body.style.overflowY='auto';
     body.innerHTML=`
       <div class="upload-mini" id="mini-drop"
         onclick="document.getElementById('mini-file').click()"
@@ -887,17 +881,11 @@ function renderITabBody(){
       </div>`;
 
   }else{
-    /* ══ 问题1修复：已上传tab
-       结构：pick-wrap(flex列) > pick-search(固定) + pick-grid-wrap(flex:1,overflow-y:auto)
-       pick-grid-wrap 撑满 ipanel-body 剩余高度，内容超出自动出现滚动条
-    ══ */
-    body.style.display='flex';
-    body.style.flexDirection='column';
-    body.style.padding='0';
+    // pick tab：body作为flex容器，搜索框固定，网格区域flex:1滚动
+    body.style.overflowY='hidden';
     body.innerHTML=`
       <div class="pick-search">
-        <input type="search" placeholder="搜索图标名称…"
-          oninput="filterPickGrid(this.value)">
+        <input type="search" placeholder="搜索图标名称…" oninput="filterPickGrid(this.value)">
       </div>
       <div class="pick-grid-wrap" id="pick-grid-wrap"></div>`;
     renderPickGrid('');
