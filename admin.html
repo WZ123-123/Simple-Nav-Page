@@ -148,13 +148,13 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
 .pick-search{
   padding:10px 12px 6px;
   flex-shrink:0;
-  position:relative;
 }
-.pick-search::before{
-  content:'🔍';position:absolute;left:20px;top:50%;transform:translateY(-50%);
-  font-size:11px;pointer-events:none;
+.pick-search .search-wrap{position:relative;}
+.pick-search .search-wrap::before{
+  content:'🔍';position:absolute;left:8px;top:50%;transform:translateY(-50%);
+  font-size:11px;pointer-events:none;line-height:1;
 }
-.pick-search input{padding-left:28px;font-size:12px}
+.pick-search input{padding-left:26px;font-size:12px}
 
 /* ── 图标网格滚动区：撑满pick-wrap剩余空间 ── */
 .pick-grid-wrap{
@@ -652,10 +652,12 @@ function rowHtml(si,ii,it){
   </tr>`;
 }
 
+let _dragRowEl=null;
 function onRowHandleMousedown(e,si,ii){
   e.stopPropagation();
   const row=e.currentTarget.closest('tr');if(!row)return;
   row.draggable=true;dragRowSrc={si,ii};row.style.opacity='.4';
+  _dragRowEl=row;
 }
 let _dropLineRow=null;
 function showDropLine(tbody,afterIdx){
@@ -699,7 +701,7 @@ function onRowDrop(e,si,ii){
 }
 function onRowDragEnd(e){
   removeDropLine();
-  if(e.currentTarget){e.currentTarget.draggable=false;e.currentTarget.style.opacity='';}
+  if(_dragRowEl){_dragRowEl.draggable=false;_dragRowEl.style.opacity='';_dragRowEl=null;}
   clearAllSecHover();clearSecHoverTimer();
   dragRowSrc=null;_crossSecTarget=null;
 }
@@ -753,8 +755,8 @@ function updUrl(si,ii,v){
   linksData[si].items[ii].url=v;setDirty();
   if(!linksData[si].items[ii].icon){
     const domain=getDomain(v);
-    document.querySelectorAll(`#tbody-${si} tr:nth-child(${ii+1}) .icon-cell img`)
-      .forEach(img=>{if(domain)img.src=buildFaviconUrl(domain);});
+    const row=document.querySelector(`#tbody-${si} tr[data-ii="${ii}"]`);
+    if(row&&domain)row.querySelector('.icon-cell img')?.setAttribute('src',buildFaviconUrl(domain));
   }
 }
 function addItem(si){
@@ -772,7 +774,11 @@ function addSection(){
 }
 function deleteSection(si){
   if(!confirm(`确定删除「${linksData[si].section}」？`))return;
-  linksData.splice(si,1);currentSec=Math.max(0,si-1);setDirty();renderSidebar();renderSection(currentSec);
+  linksData.splice(si,1);
+  currentSec=Math.min(Math.max(0,si-1),linksData.length-1);
+  setDirty();renderSidebar();
+  if(linksData.length)renderSection(currentSec);
+  else document.getElementById('links-content').innerHTML='<div class="empty">还没有分类，点击左侧添加</div>';
 }
 
 /* ══════════════════════════════════════════
@@ -873,7 +879,9 @@ function renderITabBody(){
     body.style.overflowY='hidden';
     body.innerHTML=`
       <div class="pick-search">
-        <input type="search" placeholder="搜索图标名称…" oninput="filterPickGrid(this.value)">
+        <div class="search-wrap">
+          <input type="search" placeholder="搜索图标名称…" oninput="filterPickGrid(this.value)">
+        </div>
       </div>
       <div class="pick-grid-wrap" id="pick-grid-wrap"></div>`;
     renderPickGrid('');
@@ -949,8 +957,8 @@ function confirmIcon(){
   setDirty();closeIPPanel();
   const tbody=document.getElementById(`tbody-${si}`);
   if(tbody){
-    const rows=tbody.querySelectorAll('tr');
-    if(rows[ii])rows[ii].cells[1].innerHTML=iconCellHtml(si,ii,linksData[si].items[ii]);
+    const row=tbody.querySelector(`tr[data-ii="${ii}"]`);
+    if(row)row.cells[1].innerHTML=iconCellHtml(si,ii,linksData[si].items[ii]);
   }
 }
 
