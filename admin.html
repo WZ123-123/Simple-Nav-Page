@@ -173,13 +173,14 @@ input:focus{border-color:var(--accent);background:rgba(62,207,142,0.06)}
   gap:8px;
   width:100%;
 }
-.icon-opt{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;border-radius:8px;cursor:pointer;border:1.5px solid transparent;transition:all .12s}
+.icon-opt{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;border-radius:8px;cursor:pointer;border:1.5px solid transparent;transition:all .12s;min-width:0;overflow:hidden;}
 .icon-opt:hover{background:var(--glass);border-color:var(--border)}
 .icon-opt.sel{border-color:var(--accent);background:rgba(62,207,142,.1)}
 .icon-opt img{width:36px;height:36px;object-fit:contain;border-radius:4px;flex-shrink:0}
 .icon-opt span{
   font-size:10px;color:var(--text3);
-  width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  width:100%;min-width:0;max-width:100%;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   text-align:center;display:block;
 }
 
@@ -784,50 +785,37 @@ function openIPPanel(si,ii,cellEl){
   pickerPendingIcon=linksData[si].items[ii].icon||'';
 
   const panel=document.getElementById('ipanel');
+  const GAP=8;
+  const vw=window.innerWidth,vh=window.innerHeight;
+  const isMobile=vw<=768;
+  const rect=cellEl.getBoundingClientRect();
+  const pw=isMobile?vw-24:360;
+  const spaceBelow=vh-rect.bottom-GAP*2;
+  const spaceAbove=rect.top-GAP*2;
+  const useBelow=spaceBelow>=spaceAbove||spaceBelow>=200;
+  const panelH=Math.min(Math.max(useBelow?spaceBelow:spaceAbove,200),480);
+
+  let left=isMobile?12:rect.left;
+  if(!isMobile){if(left+pw>vw-GAP)left=vw-pw-GAP;if(left<GAP)left=GAP;}
+
+  const topVal=useBelow?rect.bottom+GAP:rect.top-GAP-panelH;
+
+  // 关键顺序：先设 height，再 display:flex，子项 flex:1 才能正确撑开
+  panel.style.position='fixed';
+  panel.style.width=pw+'px';
+  panel.style.height=panelH+'px';
+  panel.style.maxHeight='none';
+  panel.style.top=topVal+'px';
+  panel.style.left=left+'px';
+  panel.style.right='auto';
+  panel.style.bottom='auto';
   panel.style.visibility='hidden';
-  panel.style.display='flex';
+  panel.style.display='flex'; // display最后设，此时height已确定
+
   document.getElementById('ipanel-backdrop').style.display='block';
   switchITab(pickerPendingIcon?'pick':'auto');
-
-  requestAnimationFrame(()=>{
-    const GAP=8;
-    const vw=window.innerWidth,vh=window.innerHeight;
-    const isMobile=vw<=768;
-    const rect=cellEl.getBoundingClientRect();
-
-    const pw=isMobile?vw-24:360;
-    const spaceBelow=vh-rect.bottom-GAP*2;
-    const spaceAbove=rect.top-GAP*2;
-    const useBelow=spaceBelow>=spaceAbove||spaceBelow>=240;
-
-    // 关键：用明确的 height 而非 max-height，这样内部 flex:1 才能正确撑开
-    const panelH=Math.max(useBelow?spaceBelow:spaceAbove,200);
-    panel.style.height=panelH+'px';
-    panel.style.maxHeight='';
-
-    // 水平位置
-    let left=isMobile?12:rect.left;
-    if(!isMobile){
-      if(left+pw>vw-GAP)left=vw-pw-GAP;
-      if(left<GAP)left=GAP;
-    }
-    panel.style.width=pw+'px';
-    panel.style.left=left+'px';
-    panel.style.right='auto';
-
-    // 垂直位置：向下用top，向上用bottom（更精准，不用猜面板实际高度）
-    if(useBelow){
-      panel.style.top=(rect.bottom+GAP)+'px';
-      panel.style.bottom='auto';
-    }else{
-      panel.style.top='auto';
-      panel.style.bottom=(vh-rect.top+GAP)+'px';
-    }
-
-    panel.style.visibility='visible';
-  });
+  requestAnimationFrame(()=>{panel.style.visibility='visible';});
 }
-
 function closeIPPanel(){
   document.getElementById('ipanel').style.display='none';
   document.getElementById('ipanel-backdrop').style.display='none';
