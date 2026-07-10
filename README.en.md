@@ -138,7 +138,7 @@ If icons load slowly or fail to load in certain regions, you can use the built-i
 2. Go to **Workers & Pages**
 3. Create a Worker
 4. Copy the `worker.js` code into it
-5. Bind a custom domain
+5. Bind a custom domain (don't use the same domain as your navigation page).
 
 ---
 
