@@ -60,7 +60,7 @@
 
 ### 1️⃣ Fork、star 项目
 
-点击右上角 Fork和Star
+点击右上角 Fork和Star项目，仓库名保持原样即可
 
 ---
 
