@@ -3,48 +3,74 @@
     "section": "常用",
     "items": [
       {
-        "title": "GitHub",
-        "url": "https://github.com/dashboard",
-        "desc": "代码托管、开源协作",
-        "data-desc": "全球最大代码托管与开源协作平台，GitHub、git",
-        "icon": "icons/logos/github.svg",
-        "intranet": "http://192.168.2.100:8080"
-      },
-      {
-        "title": "哔哩哔哩",
+         "title": "哔哩哔哩",
         "url": "https://www.bilibili.com/",
         "desc": "视频、动漫、弹幕",
-        "data-desc": "视频弹幕网站，涵盖动漫、学习与娱乐，B站、b站"
+        "data-desc": "视频弹幕网站，涵盖动漫、学习与娱乐、B站、b站",
+        "icon": "../icons/logos/bilibili.svg"
       },
       {
-        "title": "知乎",
-        "url": "https://www.zhihu.com/",
-        "desc": "中文问答社区",
-        "data-desc": "中文互联网最大问答社区，知识分享与讨论平台"
+        "title": "抖音",
+        "url": "https://www.douyin.com/jingxuan",
+        "desc": "短视频，精选",
+        "data-desc": "抖音精选短视频内容",
+        "icon": "../icons/logos/douyin.svg"
       },
       {
-        "title": "少数派",
-        "url": "https://sspai.com/",
-        "desc": "数字生活方式媒体",
-        "data-desc": "专注效率与数字生活方式的中文媒体，App推荐、科技资讯"
-      },
-      {
-        "title": "Notion",
-        "url": "https://notion.so/",
-        "desc": "笔记、项目管理",
-        "data-desc": "全能笔记与项目管理工具，支持数据库、文档、任务看板"
+        "title": "DeepSeek",
+        "url": "https://chat.deepseek.com/",
+        "desc": "国产最强AI",
+        "data-desc": "国产最强 AI 大模型，深度思考与代码辅助",
+        "icon": "../icons/logos/deepseek.svg"
       },
       {
         "title": "Claude",
-        "url": "https://claude.ai/",
+        "url": "https://claude.ai",
         "desc": "Anthropic AI助手",
-        "data-desc": "Anthropic 旗下 AI 对话助手，擅长写作、分析与代码"
+        "data-desc": "Anthropic 旗下 AI 助手，擅长分析与写作",
+        "icon": "../icons/logos/claude.svg"
       },
       {
         "title": "ChatGPT",
         "url": "https://chatgpt.com/",
         "desc": "OpenAI AI助手",
-        "data-desc": "OpenAI 旗下 AI 对话助手，GPT-4，强大通用大模型"
+        "data-desc": "OpenAI 旗下 AI 对话助手",
+        "icon": "../icons/logos/chatgpt.svg"
+      },
+      {
+        "title": "Github",
+        "url": "https://github.com/dashboard",
+        "desc": "代码托管、开源",
+        "data-desc": "全球最大代码托管与开源协作平台",
+        "icon": "../icons/logos/github.svg"
+      },
+      {
+        "title": "Gmail",
+        "url": "https://mail.google.com/mail/u/0/#inbox",
+        "desc": "Google 邮箱",
+        "data-desc": "Google 旗下电子邮件服务，谷歌邮箱",
+        "icon": "../icons/logos/gmail.svg"
+      },
+      {
+        "title": "Cloudflare",
+        "url": "https://dash.cloudflare.com",
+        "desc": "CDN、网络安全",
+        "data-desc": "全球领先的 CDN 与网络安全服务、大善人",
+        "icon": "../icons/logos/cloudflare.svg"
+      },
+      {
+        "title": "虎牙",
+        "url": "https://www.huya.com/",
+        "desc": "游戏、真人秀、一起看",
+        "data-desc": "国内知名游戏直播平台，游戏、真人秀、一起看",
+        "icon": "../icons/logos/huya.svg"
+      },
+      {
+        "title": "Youtube",
+        "url": "https://www.youtube.com/",
+        "desc": "全球最大视频平台",
+        "data-desc": "全球最大视频平台、油管",
+        "icon": "../icons/logos/youtube.svg"
       },
       {
         "title": "王五主页",
