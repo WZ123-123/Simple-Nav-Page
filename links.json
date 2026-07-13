@@ -60,91 +60,6 @@
     ]
   },
   {
-    "section": "AI",
-    "items": [
-      {
-        "title": "Claude",
-        "url": "https://claude.ai/",
-        "desc": "Anthropic AI助手",
-        "data-desc": "Anthropic 旗下 AI 对话助手，擅长写作、分析与代码，Claude 3.5"
-      },
-      {
-        "title": "ChatGPT",
-        "url": "https://chatgpt.com/",
-        "desc": "OpenAI AI助手",
-        "data-desc": "OpenAI 旗下 AI 对话助手，GPT-4o，强大通用大模型"
-      },
-      {
-        "title": "Gemini",
-        "url": "https://gemini.google.com/",
-        "desc": "谷歌多模态AI",
-        "data-desc": "谷歌旗下多模态 AI 大模型，支持图文理解与对话，Gemini 1.5 Pro"
-      },
-      {
-        "title": "DeepSeek",
-        "url": "https://chat.deepseek.com/",
-        "desc": "国产顶级AI大模型",
-        "data-desc": "国产顶级 AI 大模型，深度思考、代码辅助，深度求索，DeepSeek R1",
-        "icon": "icons/logos/deepseek-copy-copy-copy-copy-copy.svg"
-      },
-      {
-        "title": "Kimi",
-        "url": "https://kimi.moonshot.cn/",
-        "desc": "月之暗面AI助手",
-        "data-desc": "月之暗面旗下 AI 助手，支持超长上下文，文件阅读与分析，Kimi"
-      },
-      {
-        "title": "文心一言",
-        "url": "https://yiyan.baidu.com/",
-        "desc": "百度AI大模型",
-        "data-desc": "百度旗下文心一言 AI 大模型，ERNIE Bot，中文理解能力强"
-      },
-      {
-        "title": "通义千问",
-        "url": "https://tongyi.aliyun.com/",
-        "desc": "阿里AI大模型",
-        "data-desc": "阿里巴巴旗下通义千问 AI 大模型，Qwen，支持长文档与多模态",
-        "icon": "icons/logos/通义千问.svg"
-      },
-      {
-        "title": "豆包",
-        "url": "https://www.doubao.com/chat/",
-        "desc": "字节跳动AI助手",
-        "data-desc": "字节跳动旗下 AI 对话助手，豆包，灵活全面，支持图片生成"
-      },
-      {
-        "title": "讯飞星火",
-        "url": "https://xinghuo.xfyun.cn/",
-        "desc": "科大讯飞AI",
-        "data-desc": "科大讯飞旗下星火大模型，语音识别强，中文场景优化"
-      },
-      {
-        "title": "海螺AI",
-        "url": "https://hailuoai.com/",
-        "desc": "MiniMax AI助手",
-        "data-desc": "MiniMax 旗下海螺 AI 助手，支持图文生成与多轮对话"
-      },
-      {
-        "title": "即梦",
-        "url": "https://jimeng.jianying.com/",
-        "desc": "字节AI图像视频生成",
-        "data-desc": "字节跳动旗下即梦，AI 图像与视频生成，剪映系产品"
-      },
-      {
-        "title": "可灵",
-        "url": "https://klingai.kuaishou.com/",
-        "desc": "快手AI视频生成",
-        "data-desc": "快手旗下可灵 AI 视频生成工具，文生视频、图生视频"
-      },
-      {
-        "title": "Suno",
-        "url": "https://suno.com/",
-        "desc": "AI音乐创作",
-        "data-desc": "AI 音乐生成平台，输入歌词或描述即可生成完整歌曲，Suno AI"
-      }
-    ]
-  },
-  {
     "section": "工具",
     "items": [
       {
@@ -308,12 +223,6 @@
         "url": "https://pc.qq.com/",
         "desc": "正版软件下载",
         "data-desc": "腾讯软件中心，正版软件安全下载"
-      },
-      {
-        "title": "在线街机",
-        "url": "https://www.yikm.net/",
-        "desc": "经典街机模拟",
-        "data-desc": "在线街机模拟器，经典游戏免费畅玩"
       },
       {
         "title": "磁力猫",
@@ -484,6 +393,91 @@
     ]
   },
   {
+    "section": "AI",
+    "items": [
+      {
+        "title": "Claude",
+        "url": "https://claude.ai/",
+        "desc": "Anthropic AI助手",
+        "data-desc": "Anthropic 旗下 AI 对话助手，擅长写作、分析与代码，Claude 3.5"
+      },
+      {
+        "title": "ChatGPT",
+        "url": "https://chatgpt.com/",
+        "desc": "OpenAI AI助手",
+        "data-desc": "OpenAI 旗下 AI 对话助手，GPT-4o，强大通用大模型"
+      },
+      {
+        "title": "Gemini",
+        "url": "https://gemini.google.com/",
+        "desc": "谷歌多模态AI",
+        "data-desc": "谷歌旗下多模态 AI 大模型，支持图文理解与对话，Gemini 1.5 Pro"
+      },
+      {
+        "title": "DeepSeek",
+        "url": "https://chat.deepseek.com/",
+        "desc": "国产顶级AI大模型",
+        "data-desc": "国产顶级 AI 大模型，深度思考、代码辅助，深度求索，DeepSeek R1",
+        "icon": "icons/logos/deepseek-copy-copy-copy-copy-copy.svg"
+      },
+      {
+        "title": "Kimi",
+        "url": "https://kimi.moonshot.cn/",
+        "desc": "月之暗面AI助手",
+        "data-desc": "月之暗面旗下 AI 助手，支持超长上下文，文件阅读与分析，Kimi"
+      },
+      {
+        "title": "文心一言",
+        "url": "https://yiyan.baidu.com/",
+        "desc": "百度AI大模型",
+        "data-desc": "百度旗下文心一言 AI 大模型，ERNIE Bot，中文理解能力强"
+      },
+      {
+        "title": "通义千问",
+        "url": "https://tongyi.aliyun.com/",
+        "desc": "阿里AI大模型",
+        "data-desc": "阿里巴巴旗下通义千问 AI 大模型，Qwen，支持长文档与多模态",
+        "icon": "icons/logos/通义千问.svg"
+      },
+      {
+        "title": "豆包",
+        "url": "https://www.doubao.com/chat/",
+        "desc": "字节跳动AI助手",
+        "data-desc": "字节跳动旗下 AI 对话助手，豆包，灵活全面，支持图片生成"
+      },
+      {
+        "title": "讯飞星火",
+        "url": "https://xinghuo.xfyun.cn/",
+        "desc": "科大讯飞AI",
+        "data-desc": "科大讯飞旗下星火大模型，语音识别强，中文场景优化"
+      },
+      {
+        "title": "海螺AI",
+        "url": "https://hailuoai.com/",
+        "desc": "MiniMax AI助手",
+        "data-desc": "MiniMax 旗下海螺 AI 助手，支持图文生成与多轮对话"
+      },
+      {
+        "title": "即梦",
+        "url": "https://jimeng.jianying.com/",
+        "desc": "字节AI图像视频生成",
+        "data-desc": "字节跳动旗下即梦，AI 图像与视频生成，剪映系产品"
+      },
+      {
+        "title": "可灵",
+        "url": "https://klingai.kuaishou.com/",
+        "desc": "快手AI视频生成",
+        "data-desc": "快手旗下可灵 AI 视频生成工具，文生视频、图生视频"
+      },
+      {
+        "title": "Suno",
+        "url": "https://suno.com/",
+        "desc": "AI音乐创作",
+        "data-desc": "AI 音乐生成平台，输入歌词或描述即可生成完整歌曲，Suno AI"
+      }
+    ]
+  },
+  {
     "section": "游戏 / 娱乐",
     "items": [
       {
@@ -493,58 +487,16 @@
         "data-desc": "全球最大 PC 游戏数字发行平台，Steam，V社，游戏购买与社区"
       },
       {
-        "title": "Epic Games",
-        "url": "https://store.epicgames.com/",
-        "desc": "游戏平台",
-        "data-desc": "Epic Games 游戏商店，Epic，每周免费游戏，堡垒之夜开发商"
+        "title": "4399",
+        "url": "https://www.4399.com",
+        "desc": "PC小游戏平台",
+        "data-desc": "经典PC小游戏平台"
       },
       {
-        "title": "GOG",
-        "url": "https://www.gog.com/",
-        "desc": "无DRM正版游戏",
-        "data-desc": "无 DRM 限制的正版游戏平台，GOG，大量经典老游戏，CD Projekt"
-      },
-      {
-        "title": "PlayStation",
-        "url": "https://www.playstation.com/",
-        "desc": "索尼游戏平台",
-        "data-desc": "索尼旗下游戏平台，PlayStation，PS5，PS4，PSN商店"
-      },
-      {
-        "title": "Xbox",
-        "url": "https://www.xbox.com/",
-        "desc": "微软游戏平台",
-        "data-desc": "微软旗下游戏平台，Xbox，Game Pass，PC与主机跨平台游戏"
-      },
-      {
-        "title": "Nintendo",
-        "url": "https://www.nintendo.com/",
-        "desc": "任天堂官方网站",
-        "data-desc": "任天堂官方网站，Nintendo，Switch，马里奥、塞尔达、宝可梦"
-      },
-      {
-        "title": "3DM",
-        "url": "https://www.3dmgame.com/",
-        "desc": "游戏资讯与下载",
-        "data-desc": "国内主流游戏资讯与下载平台，3DM，游民星空，游戏新闻、攻略"
-      },
-      {
-        "title": "NGA玩家社区",
-        "url": "https://nga.178.com/",
-        "desc": "游戏论坛社区",
-        "data-desc": "国内知名游戏论坛社区，NGA，魔兽、网游、单机游戏深度讨论"
-      },
-      {
-        "title": "IGN",
-        "url": "https://www.ign.com/",
-        "desc": "国际游戏评测媒体",
-        "data-desc": "全球知名游戏评测与资讯媒体，IGN，游戏评分、预告片、攻略"
-      },
-      {
-        "title": "米哈游",
-        "url": "https://www.mihoyo.com/",
-        "desc": "原神、星铁、崩坏",
-        "data-desc": "米哈游官方网站，原神、崩坏：星穹铁道、崩坏3，二次元游戏"
+        "title": "在线街机",
+        "url": "https://www.yikm.net/",
+        "desc": "经典街机模拟",
+        "data-desc": "在线街机模拟器，经典游戏免费畅玩"
       }
     ]
   },
@@ -556,6 +508,12 @@
         "url": "https://www.hao123.com/",
         "desc": "综合导航站",
         "data-desc": "老牌综合网址导航站，Hao123，好123，日常常用网站入口"
+      },
+      {
+        "title": "360",
+        "url": "https://hao.360.com",
+        "desc": "综合导航站",
+        "data-desc": "老牌综合网址导航站，360，日常常用网站入口"
       }
     ]
   }
