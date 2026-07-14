@@ -147,6 +147,12 @@
         "data-desc": "PDF派，在线PDF转换与处理工具"
       },
       {
+        "title": "草料二维码",
+        "url": "https://cli.im",
+        "desc": "二维码生成器",
+        "data-desc": "二维码生成器"
+      },
+      {
         "title": "摆渡图床",
         "url": "https://img.baidu.re",
         "desc": "图片托管",
@@ -316,6 +322,18 @@
         "url": "https://www.paypal.com",
         "desc": "全球在线支付",
         "data-desc": "PayPal，全球主流在线支付与转账平台"
+      },
+      {
+        "title": "Amazon",
+        "url": "https://www.amazon.com/",
+        "desc": "全球最大电商平台",
+        "data-desc": "全球最大综合电商平台，Amazon，亚马逊，海淘、正版图书"
+      },
+      {
+        "title": "Netflix",
+        "url": "https://www.netflix.com/",
+        "desc": "流媒体影视平台",
+        "data-desc": "全球最大流媒体影视平台，Netflix，原创剧集、电影、纪录片"
       }
     ]
   },
