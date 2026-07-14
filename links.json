@@ -328,12 +328,6 @@
         "url": "https://www.amazon.com/",
         "desc": "全球最大电商平台",
         "data-desc": "全球最大综合电商平台，Amazon，亚马逊，海淘、正版图书"
-      },
-      {
-        "title": "Netflix",
-        "url": "https://www.netflix.com/",
-        "desc": "流媒体影视平台",
-        "data-desc": "全球最大流媒体影视平台，Netflix，原创剧集、电影、纪录片"
       }
     ]
   },
