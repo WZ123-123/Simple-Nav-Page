@@ -120,8 +120,7 @@
         "title": "30tool",
         "url": "https://30aitool.com/",
         "desc": "AI工具集合",
-        "data-desc": "30种AI工具集合，提升效率",
-        "icon": "../icons/logos/30tool.svg"
+        "data-desc": "30种AI工具集合，提升效率"
       },
       {
         "title": "MikuTools",
