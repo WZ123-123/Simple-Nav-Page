@@ -186,7 +186,7 @@ to improve access stability.
 
 ---
 
-### 5️⃣ (Optional) Enable the Admin Panel
+### 5️⃣ (Optional) Admin Panel
 
 The admin panel lets you manage websites visually without editing code every time.
 
@@ -241,7 +241,7 @@ your-site-url/admin
 
 Enter token + custom short password
 
-11. Save changes to GitHub after editing
+11. Save changes to GitHub after editing,Once the changes take effect, you can press Ctrl+F5 to force-refresh the navigation page to view the updated content.
 
 <img width="1194" height="604" alt="image" src="https://github.com/user-attachments/assets/024e3353-91a7-4b70-8c24-cb3c534966cd" />
 
