@@ -152,7 +152,7 @@ Worker 会代理以下资源：
   
 ---
 
-### 5️⃣（可选）开启后台功能
+### 5️⃣（可选）后台功能
 
 登录后台可避免每次增减网站改代码的繁琐，并方便自定义图标（注意：在后台编辑网站实际上就是读写github文件，所以若使用不流畅，则在后台操作时应科学上网）
 
@@ -170,7 +170,7 @@ Worker 会代理以下资源：
 8. 编辑admin.html文件,修改 const HARDCODED_REPO   = '你的用户名/Simple-Nav-Page';
 9. 打开后台{后台地址为【你的导航页网址/admin】，必须在完成下方 6️⃣ （部署到github pages或Cloudflare Pages后才能打开后台）}
 10. 第一次需要输入token和自定义短密码，后续可通过短密码登录（换设备和浏览器后需要重新输入token）
-11. 修改后台内容后点击保存到github
+11. 修改后台内容后点击保存到github，生效后可通过Ctrl+F5强制刷新导航页面查看修改内容。
 <img width="1194" height="604" alt="导航编辑器 (18 06 2026 21_37)" src="https://github.com/user-attachments/assets/e6ab1926-ba82-4d67-8de3-b94d10c12d5c" />
 
 ---
