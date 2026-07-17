@@ -30,6 +30,8 @@ A **low-barrier personal navigation page template** that requires no server setu
 
 * 🌙 **Night Mode**: Easily switch between light and dark modes using the icon next to the title
 
+* ⬆➡ **Layout Switching**:Click the title to toggle between horizontal and vertical card layouts.
+
 * 💻 **Visual admin panel**: Add and manage websites visually
 
 ---
@@ -41,6 +43,8 @@ Homepage:
 https://xmynscnq.github.io/Simple-Nav-Page
 
 <img width="1920" height="919" alt="王五导航 (24 06 2026 17_30)" src="https://github.com/user-attachments/assets/00db60cd-502b-425a-aed6-278d20d6c5f1" />
+
+<img width="1920" height="919" alt="王五导航 (17 07 2026 10_27)" src="https://github.com/user-attachments/assets/344005fd-8807-42a3-b602-dbd0bdc59a1f" />
 
 Admin Panel:
 
@@ -266,8 +270,8 @@ The token acts as a key with read/write permissions for your repository, allowin
 ---
 
 ## 📸 Examples: Mobile View / Dark Mode
-<img width="375" height="667" alt="王五导航 (24 06 2026 17_28)" src="https://github.com/user-attachments/assets/3c07f475-31b9-4676-b872-88e13a393eae" />
 
+<img width="400" height="832" alt="王五导航 (17 07 2026 10_27) (1)" src="https://github.com/user-attachments/assets/94223f6d-a0b1-4453-ab50-cfce3f337edb" />
 
 ## 📄 License
 
