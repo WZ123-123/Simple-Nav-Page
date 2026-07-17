@@ -1,4 +1,4 @@
-🔄 Language / 语言：**简体中文** | [English](README.en.md)
+<img width="1920" height="919" alt="王五导航 (17 07 2026 10_27)" src="https://github.com/user-attachments/assets/b8b9e0d6-ab5a-4ca5-b3d4-d6421fb2f6de" />🔄 Language / 语言：**简体中文** | [English](README.en.md)
 
 # 🌐 Simple Nav Page
 
@@ -30,6 +30,8 @@
 
 * 🌙 **夜间模式**：点击标题右侧图标自由切换
 
+* ⬆➡ **排列方向切换**：点击标题自由切换网站卡片横向纵向排列
+
 * 💻 **新增后台功能**：可视化增减网站
 
 ---
@@ -39,6 +41,8 @@
 主页👉 https://xmynscnq.github.io/Simple-Nav-Page
 
 <img width="1920" height="919" alt="王五导航 (24 06 2026 17_30)" src="https://github.com/user-attachments/assets/00db60cd-502b-425a-aed6-278d20d6c5f1" />
+
+<img width="1920" height="919" alt="王五导航 (17 07 2026 10_27)" src="https://github.com/user-attachments/assets/fa762c5a-99e0-425b-9349-6400477f6335" />
 
 后台👉https://xmynscnq.github.io/Simple-Nav-Page/admin
 
@@ -193,8 +197,8 @@ token就是一个有权限读写你所授权的仓库的钥匙，从而实现在
 ---
 
 ## 📸 示例：移动端/夜间模式
-<img width="375" height="667" alt="王五导航 (24 06 2026 17_28)" src="https://github.com/user-attachments/assets/20fccdfb-1535-41cd-b017-80ba0c3caab1" />
 
+<img width="400" height="832" alt="王五导航 (17 07 2026 10_27) (1)" src="https://github.com/user-attachments/assets/6d6290ba-9321-4aec-a94b-ccfc70483f0e" />
 
 ## 📄 开源协议
 
