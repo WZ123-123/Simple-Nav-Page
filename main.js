@@ -1,7 +1,3 @@
-/* ===========================
-   王五导航 · main.js
-   =========================== */
-
 // ── 图标 & 背景 配置 ────────────────────────────────────────
 const FAVICON_PROVIDER = 'google';
 const PROXY = '';
@@ -282,6 +278,7 @@ function filterLinks() {
   syncClearBtn();
   const query = document.getElementById('searchInput').value.toLowerCase().trim();
 
+  // 1. 更新卡片 hidden 状态
   document.querySelectorAll('.card').forEach(card => {
     if (!query) {
       card.classList.remove('hidden');
@@ -292,6 +289,7 @@ function filterLinks() {
     }
   });
 
+  // 2. 更新 section 的 section-hidden 状态
   document.querySelectorAll('.section').forEach(section => {
     if (!query) {
       section.classList.remove('section-hidden');
@@ -300,6 +298,87 @@ function filterLinks() {
       section.classList.toggle('section-hidden', visible.length === 0);
     }
   });
+
+  // 3. 单分类展示主题特殊处理
+  if (document.body.classList.contains('theme-tabs')) {
+    const tabsRow = document.getElementById('categoryTabsRow');
+    if (!window._themeSearchState) {
+      window._themeSearchState = { saved: false, preSearchIndex: 0 };
+    }
+    const state = window._themeSearchState;
+
+    if (query) {
+      // ========== 搜索 ==========
+      if (!state.saved) {
+        state.preSearchIndex = currentCategoryIndex;
+        state.saved = true;
+      }
+
+      // 临时显示所有 section
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('cat-hidden'));
+
+      let firstMatch = -1;
+      if (tabsRow) {
+        const sections = document.querySelectorAll('.section');
+        const tabs = tabsRow.querySelectorAll('.category-tab-item');
+        tabs.forEach((tab, index) => {
+          const sec = sections[index];
+          if (!sec) {
+            tab.style.display = 'none';
+            return;
+          }
+          const hasMatch = sec.querySelector('.card:not(.hidden)');
+          tab.style.display = hasMatch ? '' : 'none';
+          if (hasMatch && firstMatch === -1) firstMatch = index;
+        });
+        tabsRow.style.display = '';
+        updateTabsRowAlignment();
+      }
+
+      if (firstMatch === -1) {
+        if (tabsRow) tabsRow.style.display = 'none';
+        document.querySelectorAll('.section').forEach(sec => sec.classList.add('cat-hidden'));
+      } else {
+        // 保存当前滚动位置（搜索前）
+        const savedScrollLeft = tabsRow ? tabsRow.scrollLeft : 0;
+        currentCategoryIndex = firstMatch;
+        syncActiveTab(firstMatch);
+        applyCategoryFilter();                     // 会移动标签行，重置 scrollLeft
+        if (tabsRow) tabsRow.scrollLeft = savedScrollLeft;  // 恢复滚动位置（可能被覆盖，但至少尝试）
+      }
+    } else {
+  if (state.saved) {
+    const restoreIndex = state.preSearchIndex;
+    state.saved = false;
+
+    // 恢复所有标签可见
+    if (tabsRow) {
+      tabsRow.style.display = '';
+      tabsRow.querySelectorAll('.category-tab-item').forEach(tab => tab.style.display = '');
+    }
+
+    // 更新激活状态到原始分类
+    currentCategoryIndex = restoreIndex;
+    syncActiveTab(restoreIndex);
+
+    // 应用分类过滤（会移动标签行，可能重置 scrollLeft）
+    applyCategoryFilter();
+
+    // ✅ 关键：让激活的标签滚动到居中可见位置（替代之前无效的 scrollLeft 恢复）
+    const activeTab = categoryTabsRowEl ? categoryTabsRowEl.querySelector('.category-tab-item.active') : null;
+    if (activeTab) {
+      activeTab.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'center' });
+    }
+  } else {
+    // 兜底：从未保存过状态
+    if (tabsRow) {
+      tabsRow.style.display = '';
+      tabsRow.querySelectorAll('.category-tab-item').forEach(tab => tab.style.display = '');
+    }
+    applyCategoryFilter();
+  }
+}
+  }
 }
 window.filterLinks = filterLinks;
 
@@ -413,9 +492,129 @@ function changeBackground() {
   document.getElementById('bgLayer').style.backgroundImage = `url('${url}')`;
 }
 
+/* ===========================
+   单分类展示主题（点击页面大标题切换主题；
+   在该主题下，点击分区标题在各分类间循环切换，
+   页面内始终只显示一个分类）
+   =========================== */
+let layoutTheme = localStorage.getItem('layoutTheme') === 'tabs' ? 'tabs' : 'classic';
+
+/* 单分类展示主题：始终从第一个（常用）分类开始，不做记忆 */
+let currentCategoryIndex = 0;
+
+/* 共享的分类标签行元素（会被挪到当前显示的那张卡片里） */
+let categoryTabsRowEl = null;
+
+/* 只切 body class，页面刚加载、数据还没到时就可以先应用 */
+function setLayoutThemeClass() {
+  document.body.classList.toggle('theme-tabs', layoutTheme === 'tabs');
+}
+
+/* 把分类标签行挪到当前显示的那个分区卡片最上面（在卡片自带标题之前） */
+function placeTabsRowInActiveSection() {
+  if (!categoryTabsRowEl) return;
+  const sections = document.querySelectorAll('.section');
+  if (!sections.length) return;
+  const activeSection = sections[currentCategoryIndex] || sections[0];
+  if (activeSection.firstChild !== categoryTabsRowEl) {
+    const savedScrollLeft = categoryTabsRowEl.scrollLeft;   // 保存
+    activeSection.insertBefore(categoryTabsRowEl, activeSection.firstChild);
+    categoryTabsRowEl.scrollLeft = savedScrollLeft;         // 恢复
+    updateTabsRowAlignment();
+  }
+}
+
+/* 内容装得下就居中，装不下（需要横向滚动）就靠左，避免居中导致滑不到最左侧 */
+function updateTabsRowAlignment() {
+  if (!categoryTabsRowEl) return;
+  const overflowing = categoryTabsRowEl.scrollWidth > categoryTabsRowEl.clientWidth + 1;
+  categoryTabsRowEl.classList.toggle('is-overflowing', overflowing);
+}
+
+/* 根据 currentCategoryIndex，只显示对应的一个 .section，其余隐藏 */
+function applyCategoryFilter() {
+  const sections = document.querySelectorAll('.section');
+  if (!sections.length) return;
+  if (currentCategoryIndex >= sections.length) currentCategoryIndex = 0;
+  sections.forEach((sec, i) => {
+    sec.classList.toggle('cat-hidden', i !== currentCategoryIndex);
+  });
+  placeTabsRowInActiveSection();
+}
+
+/* 渲染一整排分类标签（绿色竖杠+文字风格），初始放入当前分类对应的卡片里 */
+function renderCategoryTabsRow(sectionsData) {
+  const old = document.getElementById('categoryTabsRow');
+  if (old) old.remove();
+
+  const row = document.createElement('div');
+  row.className = 'category-tabs-row';
+  row.id = 'categoryTabsRow';
+
+  sectionsData.forEach(({ section }, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'category-tab-item';
+    btn.textContent = section;
+    btn.addEventListener('click', () => selectCategoryIndex(i));
+    row.appendChild(btn);
+  });
+
+  categoryTabsRowEl = row;
+  placeTabsRowInActiveSection();
+  syncActiveTab(currentCategoryIndex);  // 初始激活
+}
+
+/* 点击某个分类标签：直接跳到该分类，竖杠随之出现在它前面 */
+/* 点击某个分类标签：直接跳到该分类，竖杠随之出现在它前面 */
+function selectCategoryIndex(i) {
+  currentCategoryIndex = i;
+  const savedScrollLeft = categoryTabsRowEl ? categoryTabsRowEl.scrollLeft : 0;
+  syncActiveTab(i);  // 使用统一函数
+  applyCategoryFilter();
+  if (categoryTabsRowEl) categoryTabsRowEl.scrollLeft = savedScrollLeft;
+}
+
+/**
+ * 统一设置分类标签的激活状态
+ * @param {number} activeIndex - 要激活的标签索引
+ */
+function syncActiveTab(activeIndex) {
+  if (!categoryTabsRowEl) return;
+  const tabs = categoryTabsRowEl.querySelectorAll('.category-tab-item');
+  tabs.forEach((tab, idx) => {
+    const isActive = (idx === activeIndex);
+    tab.classList.toggle('active', isActive);
+    tab.dataset.active = isActive ? 'true' : 'false';
+  });
+}
+
+/* 数据渲染完成后，根据当前主题决定分区的显隐状态 */
+function applyLayoutTheme() {
+  setLayoutThemeClass();
+  if (layoutTheme === 'tabs') {
+    applyCategoryFilter();
+  } else {
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('cat-hidden'));
+  }
+}
+
+/* 点击页面大标题：在"经典主题"与"单分类展示主题"之间切换 */
+function toggleLayoutTheme() {
+  layoutTheme = layoutTheme === 'classic' ? 'tabs' : 'classic';
+  localStorage.setItem('layoutTheme', layoutTheme);
+  if (layoutTheme === 'tabs') {
+    currentCategoryIndex = 0;
+    syncActiveTab(0);  // 使用统一函数
+  }
+  applyLayoutTheme();
+}
+
 /* ── 入口 ── */
 document.addEventListener('DOMContentLoaded', async () => {
   changeBackground();
+
+  // 尽早应用一次布局主题的 body class（不依赖数据）
+  setLayoutThemeClass();
 
   renderSearchTabs();
   updateSearchBoxEngine();
@@ -436,11 +635,20 @@ themeBtn.addEventListener('click', () => {
   themeBtn.textContent = isNight ? '🌙' : '☀️';
   localStorage.setItem('theme', isNight ? 'night' : 'day');
 });
-   
+
+  // 点击标题切换"横向分类"新主题
+  const pageTitle = document.getElementById('pageTitle');
+  if (pageTitle) {
+    pageTitle.addEventListener('click', toggleLayoutTheme);
+  }
+
   // 引擎触发器点击
   document.getElementById('engineTrigger').addEventListener('click', () => {
     toggleEnginePanel();
   });
+
+  // 窗口尺寸变化（比如手机横竖屏切换）时，重新判断分类标签行要不要居中
+  window.addEventListener('resize', updateTabsRowAlignment);
 
   // 搜索框键盘事件
   document.getElementById('searchInput').addEventListener('keydown', e => {
@@ -453,6 +661,8 @@ themeBtn.addEventListener('click', () => {
     const data = await res.json();
     _linksData = data;
     renderCards(data);
+    renderCategoryTabsRow(data);
+    applyLayoutTheme();
   } catch (err) {
     console.error('加载 links.json 失败：', err);
     document.getElementById('main-content').innerHTML =
