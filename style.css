@@ -3,6 +3,7 @@
 
 /* ===== CSS 变量 ===== */
 :root {
+  --primary-glow: rgba(76, 175, 80, 0.7);   /* 白天绿色发光 */
   --glass-bg: rgba(0, 0, 0, 0.35);
   --glass-border: rgba(255, 255, 255, 0.25);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
@@ -53,6 +54,76 @@ body {
   width: 100%;
 }
 
+/* ===== 单分类展示主题：一整排分类标签（绿色竖杠+文字，风格与原标题一致） ===== */
+/* 被切走的分区直接隐藏 */
+.section.cat-hidden { display: none; }
+
+/* 该主题下隐藏每个分区自带的标题，改用统一的分类标签行（会被插入到当前显示的卡片最上面） */
+body.theme-tabs .section-title { display: none; }
+
+/* 分类标签行：默认不显示，仅在"单分类展示"主题下出现 */
+.category-tabs-row {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin: 0 0 1rem 0;
+  padding-bottom: 2px;
+}
+.category-tabs-row::-webkit-scrollbar { display: none; }
+
+/* 内容装不下、需要横向滚动时，改回靠左对齐，
+   否则 justify-content:center 会让最左侧的分类滑不到 */
+.category-tabs-row.is-overflowing {
+  justify-content: flex-start;
+}
+
+body.theme-tabs .category-tabs-row { display: flex; }
+
+.category-tab-item {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.category-tab-item::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 1em;
+  background: transparent;
+  border-radius: 1px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.category-tab-item:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.category-tab-item.active {
+  color: var(--primary);
+}
+
+.category-tab-item[data-active="true"]::before {
+  background: var(--primary);
+}
+
 /* ===== 头部 ===== */
 .header-area {
   display: flex;
@@ -67,7 +138,7 @@ body {
 .header-icon {
   font-size: 2rem;
   flex-shrink: 0;
-  filter: drop-shadow(0 0 12px rgba(76, 175, 80, 0.8)) drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+  filter: drop-shadow(0 0 12px var(--primary-glow)) drop-shadow(0 4px 8px rgba(0,0,0,0.6));
   animation: float 3s ease-in-out infinite;
   user-select: none;
   display: flex;
@@ -86,14 +157,27 @@ h1 {
   font-weight: 900;
   letter-spacing: 0.05em;
   white-space: nowrap;
-  background: linear-gradient(135deg, #ffffff 0%, #a8f5ab 30%, #4CAF50 55%, #81e085 75%, #ffffff 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #a8f5ab 30%, var(--primary) 55%, #81e085 75%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   filter:
-    drop-shadow(0 0 20px rgba(76, 175, 80, 0.7))
-    drop-shadow(0 0 40px rgba(76, 175, 80, 0.35))
+    drop-shadow(0 0 20px var(--primary-glow))
+    drop-shadow(0 0 40px var(--primary-dim))
     drop-shadow(0 6px 16px rgba(0, 0, 0, 0.8));
+}
+
+/* 标题可点击，切换主题 */
+#pageTitle {
+  cursor: pointer;
+  user-select: none;
+  transition: filter 0.2s, transform 0.2s;
+}
+#pageTitle:hover {
+  filter: brightness(1.2);
+}
+#pageTitle:active {
+  transform: scale(0.98);
 }
 
 h1::after {
@@ -102,7 +186,7 @@ h1::after {
   margin: 8px auto 0;
   width: 60%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #4CAF50, rgba(76,175,80,0.5), transparent);
+  background: linear-gradient(90deg, transparent, var(--primary), var(--primary-dim), transparent);
   border-radius: 2px;
 }
 
@@ -155,16 +239,16 @@ h1::after {
 }
 
 .search-tab:hover {
-  background: rgba(76,175,80,0.15);
-  border-color: rgba(76,175,80,0.4);
+  background: var(--primary-dim);
+  border-color: var(--primary);
   color: #fff;
 }
 
 .search-tab.active {
-  background: rgba(76,175,80,0.28);
+  background: var(--primary-dim);
   border-color: var(--primary);
   color: #fff;
-  box-shadow: 0 0 12px rgba(76,175,80,0.35);
+  box-shadow: 0 0 12px var(--primary-dim);
 }
 
 .tab-icon { font-size: 1.1rem; }
@@ -209,12 +293,11 @@ h1::after {
 }
 
 .engine-trigger:hover {
-  background: rgba(76,175,80,0.18);
-  border-color: rgba(76,175,80,0.5);
+  background: var(--primary-dim);
+  border-color: var(--primary);
 }
-
 .engine-trigger:active {
-  background: rgba(76,175,80,0.28);
+  background: var(--primary);
 }
 
 #search-engine-icon {
@@ -303,7 +386,7 @@ h1::after {
   transition: background 0.2s, transform 0.15s;
   font-size: 1rem;
 }
-.search-submit-btn:active { transform: scale(0.93); background: #388E3C; }
+.search-submit-btn:active { transform: scale(0.93); background: var(--primary-dim); }
 
 /* ===== 引擎内联面板 ===== */
 .engine-list {
@@ -360,10 +443,10 @@ h1::after {
 }
 
 .engine-btn.active {
-  background: rgba(76,175,80,0.18);
+  background: var(--primary-dim);
   border-color: var(--primary);
   color: #fff;
-  box-shadow: 0 0 6px rgba(76,175,80,0.2);
+  box-shadow: 0 0 6px var(--primary-dim);
 }
 
 /* ===== 分区 ===== */
@@ -530,6 +613,30 @@ h1::after {
 
 .card.hidden { display: none; }
 
+/* ===== 主题切换按钮 ===== */
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  filter: drop-shadow(0 0 8px rgba(255,220,80,0.7));
+  transition: filter 0.3s, transform 0.3s;
+  flex-shrink: 0;
+  line-height: 1;
+  padding: 0;
+  user-select: none;
+  animation: float 3s ease-in-out infinite;
+  animation-delay: 1.5s; 
+}
+
+.theme-toggle-btn:hover {
+  transform: rotate(20deg) scale(1.15);
+}
+
+body.night-mode .theme-toggle-btn {
+  filter: drop-shadow(0 0 8px rgba(180,200,255,0.8));
+}
+
 /* ===== 响应式断点 ===== */
 @media (max-width: 1200px) {
   .link-container { grid-template-columns: repeat(5, minmax(0, 1fr)); }
@@ -546,6 +653,9 @@ h1::after {
 }
 
 @media (max-width: 480px) {
+  .theme-toggle-btn {
+    font-size: 1.2rem;   /* 仅小屏使用 */
+  }
   .search-tabs {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -604,6 +714,14 @@ h1::after {
     top: 0.6rem;
     right: 0.6rem;
   }
+  .category-tab-item {
+    font-size: 0.90rem;  /* 原 1.05rem，移动端缩小 */
+    gap: 5px;            /* 竖杠和文字的间距也稍微缩小一点 */
+  }
+  /* 新增：默认模式的分区标题也缩小 */
+  .section-title {
+    font-size: 0.90rem;
+  }
 }
 
 @media (max-width: 360px) {
@@ -649,6 +767,7 @@ body.night-mode {
   --glass-border: rgba(150, 180, 255, 0.18);
   --primary: #7c9fff;
   --primary-dim: rgba(124, 159, 255, 0.35);
+  --primary-glow: rgba(124, 159, 255, 0.7);
 }
 
 body.night-mode #bgOverlay {
@@ -661,28 +780,12 @@ body.night-mode .section-title::before {
   background: var(--primary);
 }
 
-/* ===== 主题切换按钮 ===== */
-.theme-toggle-btn {
-  background: none;
-  border: none;
-  font-size: 1.6rem;
-  cursor: pointer;
-  filter: drop-shadow(0 0 8px rgba(255,220,80,0.7));
-  transition: filter 0.3s, transform 0.3s;
-  flex-shrink: 0;
-  line-height: 1;
-  padding: 0;
-  user-select: none;
-  animation: float 3s ease-in-out infinite;
-  animation-delay: 1.5s; 
-}
-
-.theme-toggle-btn:hover {
-  transform: rotate(20deg) scale(1.15);
-}
-
-body.night-mode .theme-toggle-btn {
-  filter: drop-shadow(0 0 8px rgba(180,200,255,0.8));
+/* 夜间模式标题渐变改为蓝色系 */
+body.night-mode h1 {
+  background: linear-gradient(135deg, #ffffff 0%, #b0c6ff 30%, var(--primary) 55%, #a0b8ff 75%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* ===== 回到顶部按钮 ===== */
