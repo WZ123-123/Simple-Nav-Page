@@ -2,7 +2,7 @@
 
 # 🌐 Simple Nav Page
 
-A **low-barrier personal navigation page template** that requires no server setup. Even beginners can quickly build their own navigation homepage.
+A **simple, beautiful, and customizable personal navigation page template** that requires no server setup. Even beginners can quickly build their own navigation homepage.
 
 ---
 
