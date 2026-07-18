@@ -564,6 +564,53 @@ function renderCategoryTabsRow(sectionsData) {
   syncActiveTab(currentCategoryIndex);  // 初始激活
 }
 
+// PC端鼠标拖动分类栏
+function enableCategoryMouseDrag() {
+  if (!categoryTabsRowEl) return;
+
+  let pressed = false;
+  let startX = 0;
+  let startScrollLeft = 0;
+
+  categoryTabsRowEl.addEventListener('mousedown', function(e) {
+    pressed = true;
+
+    categoryTabsRowEl.style.cursor = 'grabbing';
+
+    startX = e.pageX;
+    startScrollLeft = categoryTabsRowEl.scrollLeft;
+  });
+
+
+  document.addEventListener('mouseup', function() {
+    pressed = false;
+
+    if (categoryTabsRowEl) {
+      categoryTabsRowEl.style.cursor = 'grab';
+    }
+  });
+
+
+  categoryTabsRowEl.addEventListener('mouseleave', function() {
+    pressed = false;
+
+    categoryTabsRowEl.style.cursor = 'grab';
+  });
+
+
+  document.addEventListener('mousemove', function(e) {
+
+    if (!pressed) return;
+
+    e.preventDefault();
+
+    const moveX = e.pageX - startX;
+
+    categoryTabsRowEl.scrollLeft =
+      startScrollLeft - moveX;
+  });
+}
+
 /* 点击某个分类标签：直接跳到该分类，竖杠随之出现在它前面 */
 /* 点击某个分类标签：直接跳到该分类，竖杠随之出现在它前面 */
 function selectCategoryIndex(i) {
@@ -662,6 +709,7 @@ themeBtn.addEventListener('click', () => {
     _linksData = data;
     renderCards(data);
     renderCategoryTabsRow(data);
+    enableCategoryMouseDrag();
     applyLayoutTheme();
   } catch (err) {
     console.error('加载 links.json 失败：', err);
