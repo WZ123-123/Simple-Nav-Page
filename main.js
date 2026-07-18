@@ -215,9 +215,9 @@ function renderEnginePanel() {
     img.src = engineFavicon(engine);
     img.alt = engine.name;
     img.onerror = function () {
-  this.src = DEFAULT_ICON;
-  this.onerror = null;
-};
+      this.src = DEFAULT_ICON;
+      this.onerror = null;
+    };
 
     const label = document.createElement('span');
     label.textContent = engine.name;
