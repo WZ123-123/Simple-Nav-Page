@@ -73,6 +73,9 @@ body.theme-tabs .section-title { display: none; }
   -ms-overflow-style: none;
   margin: 0 0 1rem 0;
   padding-bottom: 2px;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-x;
 }
 .category-tabs-row::-webkit-scrollbar { display: none; }
 
