@@ -34,7 +34,7 @@
       },
       {
         "title": "Gmail",
-        "url": "https://mail.google.com/mail/u/0/#inbox",
+        "url": "https://mail.google.com",
         "desc": "Google 邮箱",
         "data-desc": "Google 旗下电子邮件服务，谷歌邮箱"
       },
@@ -295,7 +295,7 @@
       },
       {
         "title": "Gmail",
-        "url": "https://mail.google.com/mail/u/0/#inbox",
+        "url": "https://mail.google.com",
         "desc": "Google邮箱",
         "data-desc": "Google 旗下电子邮件服务"
       },
