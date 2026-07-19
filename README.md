@@ -74,7 +74,7 @@
 
 ```html
 <title>你的导航页名称</title>
-<h1>你的导航页名称</h1>
+<h1 id="pageTitle" title="点击切换页面排列">你的导航页名称</h1>
 
 ```
 
