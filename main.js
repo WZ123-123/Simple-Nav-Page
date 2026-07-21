@@ -750,6 +750,24 @@ themeBtn.addEventListener('click', () => {
   // 窗口尺寸变化（比如手机横竖屏切换）时，重新判断分类标签行要不要居中
   window.addEventListener('resize', updateTabsRowAlignment);
 
+  // ── 处理中文输入法 composition 事件（支持拼音实时筛选） ──
+  const searchInput = document.getElementById('searchInput');
+  let isComposing = false;
+
+  searchInput.addEventListener('compositionstart', () => {
+    isComposing = true;
+  });
+
+  searchInput.addEventListener('compositionend', () => {
+    isComposing = false;
+    filterLinks();  // 组合结束后再执行一次过滤
+  });
+
+  searchInput.addEventListener('input', () => {
+    // 拼音输入过程中也实时过滤（不再依赖 oninput 属性）
+    filterLinks();
+  });
+  
   // 搜索框键盘事件
   document.getElementById('searchInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') doSearch();
