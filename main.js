@@ -274,9 +274,9 @@ function doSearch() {
 window.doSearch = doSearch;
 
 /* ── 站内筛选 ── */
-function filterLinks() {
+function filterLinks(queryOverride) {
   syncClearBtn();
-  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const query = (queryOverride ?? document.getElementById('searchInput').value).toLowerCase().trim();
 
   // 1. 更新卡片 hidden 状态
   document.querySelectorAll('.card').forEach(card => {
@@ -750,7 +750,7 @@ themeBtn.addEventListener('click', () => {
   // 窗口尺寸变化（比如手机横竖屏切换）时，重新判断分类标签行要不要居中
   window.addEventListener('resize', updateTabsRowAlignment);
 
-  // ── 处理中文输入法 composition 事件（支持拼音实时筛选） ──
+    // ── 处理中文输入法 composition 事件（拼音实时筛选） ──
   const searchInput = document.getElementById('searchInput');
   let isComposing = false;
 
@@ -758,14 +758,22 @@ themeBtn.addEventListener('click', () => {
     isComposing = true;
   });
 
-  searchInput.addEventListener('compositionend', () => {
+  searchInput.addEventListener('compositionupdate', (e) => {
+    // 拼音输入过程中的实时文本，直接传入 filterLinks
+    filterLinks(e.data || '');
+  });
+
+  searchInput.addEventListener('compositionend', (e) => {
     isComposing = false;
-    filterLinks();  // 组合结束后再执行一次过滤
+    // 组合结束后用输入框真实值过滤（用户选中的汉字或确认的拼音）
+    filterLinks();
   });
 
   searchInput.addEventListener('input', () => {
-    // 拼音输入过程中也实时过滤（不再依赖 oninput 属性）
-    filterLinks();
+    if (!isComposing) {
+      // 非组合输入（直接键盘字母、删除等）时正常过滤
+      filterLinks();
+    }
   });
   
   // 搜索框键盘事件
