@@ -423,13 +423,13 @@ function renderCards(sections) {
       a.target       = '_blank';
       a.className    = 'card';
       a.dataset.desc = item['data-desc'] ?? item.desc ?? '';
-      // ===== 新增：生成拼音搜索字段 =====
-const rawText = item.title.replace(/\s+/g, '');   // 去掉空格
-const fullPinyin = pinyinPro(rawText, { toneType: 'none' }).replace(/\s+/g, '');
-const shortPinyin = pinyinPro(rawText, { pattern: 'first', toneType: 'none' }).replace(/\s+/g, '');
-a.dataset.pinyin = fullPinyin;   // 全拼，例如 bilibili
-a.dataset.py     = shortPinyin;  // 首字母，例如 blbl
-// ===================================
+     // ===== 生成拼音搜索字段（兼容不同 pinyin-pro 版本） =====
+const rawText = item.title.replace(/\s+/g, '');
+const fullPinyin = safePinyin(rawText, { toneType: 'none' });
+const shortPinyin = safePinyin(rawText, { pattern: 'first', toneType: 'none' });
+a.dataset.pinyin = fullPinyin;
+a.dataset.py     = shortPinyin;
+// ===================================================
       a.rel          = 'noopener noreferrer';
       if (item.intranet) {
         a.dataset.url      = item.url;
