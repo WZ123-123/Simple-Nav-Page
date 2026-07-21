@@ -750,27 +750,32 @@ themeBtn.addEventListener('click', () => {
   // 窗口尺寸变化（比如手机横竖屏切换）时，重新判断分类标签行要不要居中
   window.addEventListener('resize', updateTabsRowAlignment);
 
-      // ── 中文输入法拼音实时过滤（终极兼容方案） ──
+        // ── 中文输入法拼音实时过滤（轮询 value 方案） ──
   const searchInput = document.getElementById('searchInput');
-  let composingText = '';  // 手动累积的拼音字符串
+  let pollTimer = null;
+  let lastValue = searchInput.value;
 
   searchInput.addEventListener('compositionstart', () => {
-    composingText = '';  // 开始新的拼音输入，清空缓存
-  });
-
-  searchInput.addEventListener('compositionupdate', (e) => {
-    composingText += e.data;   // 累加每次返回的拼音片段
-    filterLinks(composingText);
+    // 拼音输入开始，启动轮询
+    pollTimer = setInterval(() => {
+      const currentVal = searchInput.value;
+      if (currentVal !== lastValue) {
+        lastValue = currentVal;
+        filterLinks();
+      }
+    }, 50);
   });
 
   searchInput.addEventListener('compositionend', () => {
-    composingText = '';
-    filterLinks();  // 使用输入框最终 value（已选好汉字）
+    clearInterval(pollTimer);
+    pollTimer = null;
+    filterLinks(); // 选字结束，用最终值过滤
   });
 
   searchInput.addEventListener('input', () => {
-    // 非拼音输入法（直接敲英文、粘贴等）时触发
-    if (!composingText) {
+    // 非拼音输入时（英文、粘贴等）
+    if (!pollTimer) {
+      lastValue = searchInput.value;
       filterLinks();
     }
   });
