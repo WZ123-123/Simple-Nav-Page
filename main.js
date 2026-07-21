@@ -400,6 +400,34 @@ if (activeTab) {
 }
 window.filterLinks = filterLinks;
 
+/**
+ * 兼容不同 pinyin-pro 版本的拼音转换
+ * @param {string} text - 待转换的文本
+ * @param {object} options - 配置项
+ * @returns {string} 拼音字符串（无声调，空格已去除）
+ */
+function safePinyin(text, options = {}) {
+  if (!text) return '';
+  const lib = window.pinyinPro;
+  if (!lib) return text; // 没有库，返回原文本
+
+  let fn = null;
+  if (typeof lib === 'function') {
+    fn = lib;
+  } else if (typeof lib === 'object') {
+    // 优先尝试常见的导出属性
+    fn = lib.pinyin || lib.default || lib;
+  }
+  if (typeof fn === 'function') {
+    try {
+      return fn(text, options).replace(/\s+/g, '');
+    } catch (e) {
+      console.warn('pinyinPro 调用失败：', e);
+    }
+  }
+  return text; // 降级：返回原文本
+}
+
 /* ── 动态渲染卡片 ── */
 function renderCards(sections) {
   const main = document.getElementById('main-content');
