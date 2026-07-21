@@ -284,8 +284,16 @@ function filterLinks() {
       card.classList.remove('hidden');
     } else {
       const title    = card.querySelector('.title')?.innerText.toLowerCase() ?? '';
-      const datadesc = (card.dataset.desc ?? '').toLowerCase();
-      card.classList.toggle('hidden', !title.includes(query) && !datadesc.includes(query));
+const datadesc = (card.dataset.desc ?? '').toLowerCase();
+const pinyin   = (card.dataset.pinyin ?? '').toLowerCase();
+const py       = (card.dataset.py ?? '').toLowerCase();
+
+card.classList.toggle('hidden',
+  !title.includes(query) &&
+  !datadesc.includes(query) &&
+  !pinyin.includes(query) &&
+  !py.includes(query)
+);
     }
   });
 
@@ -415,6 +423,13 @@ function renderCards(sections) {
       a.target       = '_blank';
       a.className    = 'card';
       a.dataset.desc = item['data-desc'] ?? item.desc ?? '';
+      // ===== 新增：生成拼音搜索字段 =====
+const rawText = item.title.replace(/\s+/g, '');   // 去掉空格
+const fullPinyin = pinyinPro(rawText, { toneType: 'none' }).replace(/\s+/g, '');
+const shortPinyin = pinyinPro(rawText, { pattern: 'first', toneType: 'none' }).replace(/\s+/g, '');
+a.dataset.pinyin = fullPinyin;   // 全拼，例如 bilibili
+a.dataset.py     = shortPinyin;  // 首字母，例如 blbl
+// ===================================
       a.rel          = 'noopener noreferrer';
       if (item.intranet) {
         a.dataset.url      = item.url;
