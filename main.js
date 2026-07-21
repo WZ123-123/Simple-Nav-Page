@@ -750,28 +750,27 @@ themeBtn.addEventListener('click', () => {
   // 窗口尺寸变化（比如手机横竖屏切换）时，重新判断分类标签行要不要居中
   window.addEventListener('resize', updateTabsRowAlignment);
 
-    // ── 处理中文输入法 composition 事件（拼音实时筛选） ──
+      // ── 中文输入法拼音实时过滤（终极兼容方案） ──
   const searchInput = document.getElementById('searchInput');
-  let isComposing = false;
+  let composingText = '';  // 手动累积的拼音字符串
 
   searchInput.addEventListener('compositionstart', () => {
-    isComposing = true;
+    composingText = '';  // 开始新的拼音输入，清空缓存
   });
 
   searchInput.addEventListener('compositionupdate', (e) => {
-    // 拼音输入过程中的实时文本，直接传入 filterLinks
-    filterLinks(e.data || '');
+    composingText += e.data;   // 累加每次返回的拼音片段
+    filterLinks(composingText);
   });
 
-  searchInput.addEventListener('compositionend', (e) => {
-    isComposing = false;
-    // 组合结束后用输入框真实值过滤（用户选中的汉字或确认的拼音）
-    filterLinks();
+  searchInput.addEventListener('compositionend', () => {
+    composingText = '';
+    filterLinks();  // 使用输入框最终 value（已选好汉字）
   });
 
   searchInput.addEventListener('input', () => {
-    if (!isComposing) {
-      // 非组合输入（直接键盘字母、删除等）时正常过滤
+    // 非拼音输入法（直接敲英文、粘贴等）时触发
+    if (!composingText) {
       filterLinks();
     }
   });
